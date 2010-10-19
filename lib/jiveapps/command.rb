@@ -12,21 +12,24 @@ module Jiveapps
 
     class << self
 
-      def run(command, args)
-        # puts "command: #{command.inspect}"
-        # puts "args: #{args.inspect}"
-        
+      def run(command, args, retries=0)
         begin
+          run_internal 'auth:reauthorize', args.dup if retries > 0
           run_internal(command, args.dup)
         rescue InvalidCommand
-          puts "command: #{command}, args.dup: #{args.dup}"
           error "Unknown command. Run 'jiveapps help' for usage information."
+        rescue RestClient::Unauthorized
+          if retries < 3
+            STDERR.puts "Authentication failure"
+            run(command, args, retries+1)
+          else
+            error "Authentication failure"
+          end
         end
       end
 
       def run_internal(command, args)
         klass, method = parse(command)
-        # puts "klass: #{klass.inspect}"
         runner = klass.new(args)
         raise InvalidCommand unless runner.respond_to?(method)
         runner.send(method)

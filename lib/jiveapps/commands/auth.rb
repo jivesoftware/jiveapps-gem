@@ -14,7 +14,6 @@ module Jiveapps::Command
 
     # just a stub; will raise if not authenticated
     def check
-      puts "running check now!"
       client.list
     end
 
@@ -104,9 +103,6 @@ module Jiveapps::Command
       begin
         write_credentials
         command = args.any? { |a| a == '--ignore-keys' } ? 'auth:check' : 'keys:add'
-        
-        puts "command to run: #{command}"
-        
         Jiveapps::Command.run_internal(command, args)
       rescue RestClient::Unauthorized => e
         delete_credentials
