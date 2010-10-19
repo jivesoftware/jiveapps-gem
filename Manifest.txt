@@ -1,3 +1,4 @@
+.rspec
 History.txt
 Manifest.txt
 PostInstall.txt
@@ -8,6 +9,7 @@ app_generators/create/create_generator.rb
 app_generators/create/templates/app.xml
 app_generators/create/templates/javascripts/main.js
 app_generators/create/templates/stylesheets/main.css
+autotest/discover.rb
 bin/jiveapps
 lib/jiveapps.rb
 lib/jiveapps/client.rb
