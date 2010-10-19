@@ -6,8 +6,12 @@ module Jiveapps::Command
         "  - " + app['name']
       end
 
-      display "Your apps:"
-      display formatted_list
+      if formatted_list.size > 0
+        display "Your apps:"
+        display formatted_list
+      else
+        display "You have no apps."
+      end
     end
 
     def info

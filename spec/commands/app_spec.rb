@@ -14,6 +14,14 @@ module Jiveapps::Command
         @cli.should_receive(:display).with(["  - myapp", "  - yourapp"])
         @cli.list
       end
+
+      it "shows 'You have no apps.' if the API returns an empty list" do
+        @cli.stub!(:args).and_return([])
+        @cli.jiveapps.should_receive(:list).and_return([])
+        @cli.should_receive(:display).with('You have no apps.')
+        @cli.list
+      end
+
     end
 
     describe "app info" do
