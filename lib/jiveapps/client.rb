@@ -14,7 +14,7 @@ class Jiveapps::Client
 
   attr_reader :host, :user, :password
 
-  def initialize(user, password, host=Jiveapps::HOSTNAME)
+  def initialize(user, password, host=Jiveapps::WEBHOST)
     @user     = user
     @password = password
     @host     = host

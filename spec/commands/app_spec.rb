@@ -29,8 +29,8 @@ module Jiveapps::Command
         @cli.stub!(:args).and_return(['myapp'])
         @cli.jiveapps.should_receive(:info).with('myapp').and_return({ 'name' => 'myapp' })
         @cli.should_receive(:display).with('=== myapp')
-        @cli.should_receive(:display).with("Web URL: http://#{Jiveapps::HOSTNAME}/apps/myapp/app.xml")
-        @cli.should_receive(:display).with("Git URL: git://#{Jiveapps::HOSTNAME}/myapp.git")
+        @cli.should_receive(:display).with("Web URL: http://#{Jiveapps::WEBHOST}/apps/myapp/app.xml")
+        @cli.should_receive(:display).with("Git URL: git://#{Jiveapps::GITHOST}/myapp.git")
         @cli.info
       end
 

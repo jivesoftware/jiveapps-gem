@@ -47,8 +47,8 @@ class CreateGenerator < RubiGen::Base
   end
 
   def create_remote_git_repo_and_push
-    run("curl -u testuser:testpass -H 'Content-Type: application/json' -d '{\"app\": {\"name\":\"#{@name}\"}}' http://#{Jiveapps::HOSTNAME}/apps.json")
-    run("cd #{@destination_root} && git remote add jiveapps git://#{Jiveapps::HOSTNAME}/#{@name}.git")
+    run("curl -u testuser:testpass -H 'Content-Type: application/json' -d '{\"app\": {\"name\":\"#{@name}\"}}' http://#{Jiveapps::WEBHOST}/apps.json")
+    run("cd #{@destination_root} && git remote add jiveapps git://#{Jiveapps::GITHOST}/#{@name}.git")
     run("cd #{@destination_root} && git push jiveapps master")
   end
 
@@ -58,8 +58,8 @@ class CreateGenerator < RubiGen::Base
     puts ""
     puts "Congratulations, you have created a new Jive App!"
     puts "================================================="
-    puts "Git URL: git://#{Jiveapps::HOSTNAME}/#{@name}.git"
-    puts "App URL: http://#{Jiveapps::HOSTNAME}/apps/#{@name}/app.xml"
+    puts "Git URL: git://#{Jiveapps::GITHOST}/#{@name}.git"
+    puts "App URL: http://#{Jiveapps::WEBHOST}/apps/#{@name}/app.xml"
   end
 
   def run(command)

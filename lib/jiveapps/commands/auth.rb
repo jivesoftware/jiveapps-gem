@@ -18,7 +18,7 @@ module Jiveapps::Command
     end
 
     def host
-      ENV['JIVEAPPS_HOST'] || Jiveapps::HOSTNAME
+      ENV['JIVEAPPS_HOST'] || Jiveapps::WEBHOST
     end
 
     def reauthorize

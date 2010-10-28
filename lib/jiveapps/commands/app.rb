@@ -24,8 +24,8 @@ module Jiveapps::Command
         if app == nil
           display "App not found."
         else
-          app["web_url"] = "http://#{Jiveapps::HOSTNAME}/apps/#{app['name']}/app.xml"
-          app["git_url"] = "git://#{Jiveapps::HOSTNAME}/#{app['name']}.git"
+          app["web_url"] = "http://#{Jiveapps::WEBHOST}/apps/#{app['name']}/app.xml"
+          app["git_url"] = "git://#{Jiveapps::GITHOST}/#{app['name']}.git"
 
           display "=== #{app['name']}"
           display "Web URL: #{app['web_url']}"
