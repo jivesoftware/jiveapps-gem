@@ -6,13 +6,14 @@ Rspec.configure do |c|
   c.include WebMock::API
 end
 
+require 'jiveapps'
 require 'jiveapps/command'
 require 'jiveapps/commands/base'
 Dir["#{File.dirname(__FILE__)}/../lib/jiveapps/commands/*"].each { |c| require c }
 require 'jiveapps/client'
 
 def stub_api_request(method, path)
-  stub_request(method, "http://becker-mbp.jiveland.com:3000#{path}.json")
+  stub_request(method, "http://#{Jiveapps::HOSTNAME}#{path}.json")
 end
 
 def prepare_command(klass)

@@ -14,7 +14,7 @@ class Jiveapps::Client
 
   attr_reader :host, :user, :password
 
-  def initialize(user, password, host='becker-mbp.jiveland.com')
+  def initialize(user, password, host=Jiveapps::HOSTNAME)
     @user     = user
     @password = password
     @host     = host
@@ -93,7 +93,7 @@ class Jiveapps::Client
     if uri =~ /^https?/
       RestClient::Resource.new(uri, user, password)
     else
-      RestClient::Resource.new("http://#{host}:3000", user, password)[uri]
+      RestClient::Resource.new("http://#{host}", user, password)[uri]
     end
   end
 

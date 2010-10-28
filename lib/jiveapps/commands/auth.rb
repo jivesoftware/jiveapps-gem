@@ -18,7 +18,7 @@ module Jiveapps::Command
     end
 
     def host
-      ENV['JIVEAPPS_HOST'] || 'becker-mbp.jiveland.com'
+      ENV['JIVEAPPS_HOST'] || Jiveapps::HOSTNAME
     end
 
     def reauthorize
