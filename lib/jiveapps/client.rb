@@ -21,19 +21,32 @@ class Jiveapps::Client
   end
 
   def list
-    doc = JSON.parse(get('/apps.json').to_s)
-    doc.map do |item|
-      item['app']
+    apps = get('/apps.json')
+
+    if apps.class == Array
+      apps.map { |item| item['app'] }
+    else
+      return []
     end
   end
 
-  def info(app_name)
-    response = get("/apps/#{app_name}.json")
-    if response == 'null'
-      return nil
+  def info(name)
+    item = get("/apps/#{name}.json")
+
+    if item.class == Hash && item['app']
+      item['app']
     else
-      doc = JSON.parse(response.to_s)
-      doc['app']
+      nil
+    end
+  end
+
+  def create(name)
+    item = post("/apps.json", {:app => {:name => name}}, :content_type => 'application/json')
+
+    if item.class == Hash && item['app']
+      item['app']
+    else
+      nil
     end
   end
 
@@ -45,13 +58,25 @@ class Jiveapps::Client
     process(:get, uri, extra_headers)
   end
 
+  def post(uri, object, extra_headers={})    # :nodoc:
+    process(:post, uri, extra_headers, JSON.dump(object))
+  end
+
   def process(method, uri, extra_headers={}, payload=nil)
     headers  = jiveapps_headers.merge(extra_headers)
     args     = [method, payload, headers].compact
     response = resource(uri).send(*args)
 
     extract_warning(response)
-    response
+    parse_response(response.to_s)
+  end
+
+  def parse_response(response)
+    if response == 'null' || response.length == 0
+      return nil
+    else
+      return JSON.parse(response)
+    end
   end
 
   def jiveapps_headers   # :nodoc:

@@ -56,4 +56,17 @@ describe Jiveapps::Client do
     }
   end
 
+  it "create -> should create a new app and return it's attributes" do
+    stub_api_request(:post, "/apps").to_return(:body => <<-EOXML)
+      {"app":{"name":"myapp","created_at":"2010-10-15T23:59:10Z","updated_at":"2010-10-15T23:59:10Z","id":1}}
+    EOXML
+
+    @client.create('myapp').should == {
+      "name"       => "myapp",
+      "created_at" => "2010-10-15T23:59:10Z",
+      "updated_at" => "2010-10-15T23:59:10Z",
+      "id"         => 1
+    }
+  end
+
 end
