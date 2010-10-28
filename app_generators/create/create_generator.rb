@@ -23,6 +23,7 @@ class CreateGenerator < RubiGen::Base
 
       # Create stubs
       m.template "app.xml",  "app.xml"
+      m.template "manifest.example.json",  "manifest.example.json"
       m.template "stylesheets/main.css", "stylesheets/main.css"
       m.template "javascripts/main.js", "javascripts/main.js"
       # m.template_copy_each ["template.rb", "template2.rb"]

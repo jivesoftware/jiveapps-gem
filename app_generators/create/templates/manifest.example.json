@@ -1,0 +1,34 @@
+/**
+ * Example Application Manifest File
+ *
+ * Currently this is used to submit third party OAuth consumer key/secret pairs to the
+ * Jive Apps Gateway. These should match the services defined in your gadget XML file.
+ * 
+ * For example, if you wish to communicate with LinkedIn and twitter, create two objects
+ * in the services array as seen below. In your gadget XML file, you should have:
+ *   <ModulePrefs>
+ *     <OAuth>
+ *       <Service name="linkedin">
+ *         <Access        url="https://linkedin.com/access_url"  method="GET" />
+ *         <Request       url="https://linkedin.com/request_url" method="GET" />
+ *         <Authorization url="https://linkedin.com/auth_url" />
+ *       </Service>
+ *       <Service name="twitter">
+ *         <Access        url="https://twitter.com/access_url"  method="GET" />
+ *         <Request       url="https://twitter.com/request_url" method="GET" />
+ *         <Authorization url="https://twitter.com/auth_url" />
+ *       </Service>
+ *     </OAuth>
+ *   </ModulePrefs>
+ */
+{
+    "version": 1.0,
+    "gadgetparams" : {
+        "oauth": {
+            "services": [
+                {"name": "linkedin", "key": "xxxxx", "secret": "yyyyy"},
+                {"name": "twitter",  "key": "xxxxx", "secret": "yyyyy"}
+            ]
+        } 
+    }
+}
