@@ -10,7 +10,7 @@ class CreateGenerator < RubiGen::Base
   def initialize(runtime_args, runtime_options = {})
     super
     usage if args.empty?
-    @destination_root = File.expand_path(args.shift)
+    @destination_root = File.expand_path(args.first)
     @name = base_name
     extract_options
   end
@@ -33,38 +33,6 @@ class CreateGenerator < RubiGen::Base
       # m.dependency "install_rubigen_scripts", [destination_root, 'create'],
       #   :shebang => options[:shebang], :collision => :force
     end
-  end
-
-  def after_generate
-    create_local_repo
-    create_remote_git_repo_and_push
-    notify_user
-  end
-
-  def create_local_repo
-    run("git init #{@destination_root}")
-    run("cd #{@destination_root} && git add . && git commit -m 'initial commit'")
-  end
-
-  def create_remote_git_repo_and_push
-    run("curl -u testuser:testpass -H 'Content-Type: application/json' -d '{\"app\": {\"name\":\"#{@name}\"}}' http://#{Jiveapps::WEBHOST}/apps.json")
-    run("cd #{@destination_root} && git remote add jiveapps git://#{Jiveapps::GITHOST}/#{@name}.git")
-    run("cd #{@destination_root} && git push jiveapps master")
-  end
-
-  def notify_user
-    puts ""
-    puts ""
-    puts ""
-    puts "Congratulations, you have created a new Jive App!"
-    puts "================================================="
-    puts "Git URL: git://#{Jiveapps::GITHOST}/#{@name}.git"
-    puts "App URL: http://#{Jiveapps::WEBHOST}/apps/#{@name}/app.xml"
-  end
-
-  def run(command)
-    # puts command
-    `#{command} > /dev/null`
   end
 
   protected

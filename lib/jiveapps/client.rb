@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'rest_client'
-require 'json/pure'
+require 'json'
 
 class Jiveapps::Client
 
