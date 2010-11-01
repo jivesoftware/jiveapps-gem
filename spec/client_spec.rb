@@ -69,4 +69,51 @@ describe Jiveapps::Client do
     }
   end
 
+  describe "ssh keys" do
+    it "fetches a list of the user's current keys" do
+      stub_api_request(:get, "/ssh_keys").to_return(:body => <<-EOXML)
+        [
+            {
+                "ssh_key": {
+                    "name": "foobar",
+                    "created_at": "2010-11-01T18:31:04Z",
+                    "updated_at": "2010-11-01T18:31:04Z",
+                    "username": "testuser",
+                    "id": 3,
+                    "key": "a b foobar"
+                }
+            }
+        ]
+      EOXML
+      @client.keys.should == [
+        {
+          "name"       => "foobar",
+          "created_at" => "2010-11-01T18:31:04Z",
+          "updated_at" => "2010-11-01T18:31:04Z",
+          "username"   => "testuser",
+          "id"         => 3,
+          "key"        => "a b foobar"
+        }
+      ]
+    end
+
+    it "add_key(key) -> add an ssh key (e.g., the contents of id_rsa.pub) to the user" do
+      stub_api_request(:post, "/ssh_keys").to_return(:body => <<-EOXML)
+        {"ssh_key":{"key":"a key"}}
+      EOXML
+      @client.add_key('a key')
+    end
+
+    it "remove_key(key) -> remove an ssh key by name (user@box)" do
+      stub_api_request(:delete, "/ssh_keys/joe%40workstation")
+      @client.remove_key('joe@workstation')
+    end
+
+    # it "remove_all_keys -> removes all ssh keys for the user" do
+    #   stub_api_request(:delete, "/ssh_keys")
+    #   @client.remove_all_keys
+    # end
+  end
+
+
 end

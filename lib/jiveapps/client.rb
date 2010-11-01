@@ -20,8 +20,10 @@ class Jiveapps::Client
     @host     = host
   end
 
+  ### Apps
+
   def list
-    apps = get('/apps.json')
+    apps = get('/apps')
 
     if apps.class == Array
       apps.map { |item| item['app'] }
@@ -31,7 +33,7 @@ class Jiveapps::Client
   end
 
   def info(name)
-    item = get("/apps/#{name}.json")
+    item = get("/apps/#{name}")
 
     if item.class == Hash && item['app']
       item['app']
@@ -41,7 +43,7 @@ class Jiveapps::Client
   end
 
   def create(name)
-    item = post("/apps.json", {:app => {:name => name}}, :content_type => 'application/json')
+    item = post("/apps", {:app => {:name => name}}, :content_type => 'application/json')
 
     if item.class == Hash && item['app']
       item['app']
@@ -49,6 +51,34 @@ class Jiveapps::Client
       nil
     end
   end
+
+  ### SSH Keys
+
+  def keys
+    ssh_keys = get('/ssh_keys')
+
+    if ssh_keys.class == Array
+      ssh_keys.map { |item| item['ssh_key'] }
+    else
+      return []
+    end
+  end
+
+  def add_key(key)
+    item = post("/ssh_keys", {:ssh_key => {:key => key}}, :content_type => 'application/json')
+
+    if item.class == Hash && item['ssh_key']
+      item['ssh_key']
+    else
+      nil
+    end
+  end
+
+  def remove_key(name)
+    delete("/ssh_keys/#{escape(name)}").to_s
+  end
+
+  ### General
 
   def on_warning(&blk)
     @warning_callback = blk
@@ -60,6 +90,14 @@ class Jiveapps::Client
 
   def post(uri, object, extra_headers={})    # :nodoc:
     process(:post, uri, extra_headers, JSON.dump(object))
+  end
+
+  def put(uri, object, extra_headers={})    # :nodoc:
+    process(:put, uri, extra_headers, JSON.dump(object))
+  end
+
+  def delete(uri, extra_headers={})    # :nodoc:
+    process(:delete, uri, extra_headers)
   end
 
   def process(method, uri, extra_headers={}, payload=nil)
@@ -84,8 +122,14 @@ class Jiveapps::Client
       'X-Jiveapps-API-Version' => '1',
       'User-Agent'             => self.class.gem_version_string,
       'X-Ruby-Version'         => RUBY_VERSION,
-      'X-Ruby-Platform'        => RUBY_PLATFORM
+      'X-Ruby-Platform'        => RUBY_PLATFORM,
+      'Accept'                 => 'application/json'
     }
+  end
+
+  def escape(value)  # :nodoc:
+    escaped = URI.escape(value.to_s, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))
+    escaped.gsub('.', '%2E') # not covered by the previous URI.escape
   end
 
   def resource(uri)
