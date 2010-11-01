@@ -43,7 +43,7 @@ class Jiveapps::Client
   end
 
   def create(name)
-    item = post("/apps", {:app => {:name => name}}, :content_type => 'application/json')
+    item = post("/apps", {:app => {:name => name}})
 
     if item.class == Hash && item['app']
       item['app']
@@ -65,7 +65,7 @@ class Jiveapps::Client
   end
 
   def add_key(key)
-    item = post("/ssh_keys", {:ssh_key => {:key => key}}, :content_type => 'application/json')
+    item = post("/ssh_keys", {:ssh_key => {:key => key}})
 
     if item.class == Hash && item['ssh_key']
       item['ssh_key']
@@ -123,7 +123,8 @@ class Jiveapps::Client
       'User-Agent'             => self.class.gem_version_string,
       'X-Ruby-Version'         => RUBY_VERSION,
       'X-Ruby-Platform'        => RUBY_PLATFORM,
-      'Accept'                 => 'application/json'
+      'Accept'                 => 'application/json',
+      'Content-Type'           => 'application/json'
     }
   end
 
