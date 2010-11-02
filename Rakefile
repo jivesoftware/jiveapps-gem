@@ -14,8 +14,11 @@ $hoe = Hoe.spec 'jiveapps' do
   self.developer 'Jive Software', 'apps@jivesoftware.com'
   self.post_install_message = 'PostInstall.txt' # TODO remove if post-install message not required
   self.rubyforge_name       = self.name # TODO this is default value
-  # self.extra_deps         = [['activesupport','>= 2.0.2']]
-
+  self.extra_deps           = [
+    ['rest-client'],
+    ['json'],
+    ['rubigen']
+  ]
 end
 
 require 'newgem/tasks'
