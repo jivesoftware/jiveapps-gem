@@ -25,6 +25,17 @@ module Jiveapps::Command
       jiveapps.add_key(key)
     end
 
+    # Remove an SSH key
+    # - args.first must be the name of the key
+    def remove
+      begin
+        jiveapps.remove_key(args.first)
+        display "Key #{args.first} removed."
+      rescue RestClient::ResourceNotFound
+        display "Key #{args.first} not found."
+      end
+    end
+
     private
       # Finds a key in the specified path or in the default locations (~/.ssh/id_(r|d)sa.pub)
       def find_key(path=nil)

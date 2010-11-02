@@ -110,10 +110,10 @@ class Jiveapps::Client
   end
 
   def parse_response(response)
-    if response == 'null' || response.length == 0
+    if response == 'null' || response.strip.length == 0
       return nil
     else
-      return JSON.parse(response)
+      return JSON.parse(response.strip)
     end
   end
 

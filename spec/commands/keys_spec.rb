@@ -47,6 +47,12 @@ module Jiveapps::Command
       @keys.list
     end
 
+    it "removes the key matching the specified name" do
+      @keys.stub!(:args).and_return(['pablo@jive'])
+      @keys.jiveapps.should_receive(:remove_key).with('pablo@jive')
+      @keys.remove
+    end
+
     context "key locating" do
       before do
         @keys.stub!(:home_directory).and_return('/home/joe')
