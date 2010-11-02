@@ -14,6 +14,7 @@ module Jiveapps::Command
         end
       end
     end
+    alias :index :list
 
     # Uploads an SSH Key
     # - args.first can either be a path to a key file or be nil. if nil, looks in default paths
@@ -28,6 +29,10 @@ module Jiveapps::Command
     # Remove an SSH key
     # - args.first must be the name of the key
     def remove
+      if args.first == nil
+        display "No key specified. Please specify key to remove, for example:\n$ jiveapps keys:remove name@host"
+        return
+      end
       begin
         jiveapps.remove_key(args.first)
         display "Key #{args.first} removed."
