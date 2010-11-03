@@ -33,11 +33,10 @@ class Jiveapps::Client
   end
 
   def info(name)
-    item = get("/apps/#{name}")
-
-    if item.class == Hash && item['app']
+    begin
+      item = get("/apps/#{name}")
       item['app']
-    else
+    rescue RestClient::ResourceNotFound
       nil
     end
   end
