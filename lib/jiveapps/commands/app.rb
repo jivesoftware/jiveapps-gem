@@ -1,6 +1,8 @@
 module Jiveapps::Command
   class App < Base
 
+    attr_reader :current_app
+
     def list
       formatted_list = jiveapps.list.map do |app|
         "  - " + app['name']
@@ -15,29 +17,27 @@ module Jiveapps::Command
     end
 
     def info
-      name = args.first
-      if name == nil
+      if app_name == nil
         display "No app specified."
         display "Run this command from app folder or set it by running: jiveapps info <app name>"
       else
-        app = jiveapps.info(name)
+        app = jiveapps.info(app_name)
         if app == nil
           display "App not found."
         else
-          app["web_url"] = "http://#{Jiveapps::WEBHOST}/apps/#{app['name']}/app.xml"
-          app["git_url"] = "git@#{Jiveapps::GITHOST}:#{app['name']}.git"
-
           display "=== #{app['name']}"
-          display "Web URL: #{app['web_url']}"
           display "Git URL: #{app['git_url']}"
+          display "App URL: #{app['app_url']}"
         end
       end
     end
 
     def create
+      # check auth credentials and ssh key before generating app
+      Jiveapps::Command.run_internal('auth:check', [])
+      create_remote_app
       generate_app
-      create_local_repo
-      create_remote_git_repo_and_push
+      create_local_git_repo_and_push_to_remote
       create_notify_user
     end
 
@@ -47,6 +47,10 @@ module Jiveapps::Command
 
     private
 
+    def create_remote_app
+      @current_app = jiveapps.create(app_name)
+    end
+
     def generate_app
       require 'rubygems'
       require 'rubigen'
@@ -55,14 +59,10 @@ module Jiveapps::Command
       RubiGen::Scripts::Generate.new.run(@args, :generator => 'create')
     end
 
-    def create_local_repo
+    def create_local_git_repo_and_push_to_remote
       run("git init #{app_name}")
       run("cd #{app_name} && git add . && git commit -q -m 'initial commit'")
-    end
-
-    def create_remote_git_repo_and_push
-      jiveapps.create(app_name)
-      run("cd #{app_name} && git remote add jiveapps git@#{Jiveapps::GITHOST}:#{app_name}.git")
+      run("cd #{app_name} && git remote add jiveapps #{current_app['git_url']}")
       run("cd #{app_name} && git push -q jiveapps master")
     end
 
@@ -72,8 +72,8 @@ module Jiveapps::Command
       display ""
       display "Congratulations, you have created a new Jive App!"
       display "================================================="
-      display "Git URL: git@#{Jiveapps::GITHOST}:#{app_name}.git"
-      display "App URL: http://#{Jiveapps::WEBHOST}/apps/#{app_name}/app.xml"
+      display "Git URL: #{current_app['git_url']}"
+      display "App URL: #{current_app['app_url']}"
     end
 
     def app_name
