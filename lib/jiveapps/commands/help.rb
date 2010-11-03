@@ -3,23 +3,32 @@ module Jiveapps::Command
 
     def index
       puts <<-eos
+=== Summary
+The "jiveapps" program is a command line tool for building and hosting Jive App front-ends.
+
 === General Commands
 
-help                         # show this usage
+help                                       # show this usage
 
-create <name>                # create a new app
+list                                       # list your apps
+create <name>                              # create a new app
 
-=== Example:
+keys                                       # show your user's public keys
+keys:add [<path to keyfile>]               # add a public key. optionally include path
+keys:remove <keyname>                      # remove a key by name (user@host)
 
- jiveapps create myapp                     # create a new app named "myapp"
- cd myapp                                  # switch into app's directory
+=== Simple Workflow Example:
 
- ... develop app
+$ jiveapps create myapp                    # create a new app named "myapp"
+$ cd myapp                                 # switch into app's directory
 
- git add .                                 # stage all files for commit
- git commit -m "some updates to my app"    # commit to your local git repository
- git push jiveapps master                  # push updates to jive
-       eos
+ ... develop your app ...
+
+$ git add .                                # stage all files for commit
+$ git commit -m "some updates to my app"   # commit to your local git repository
+$ git push jiveapps master                 # push updates to jive
+eos
     end
+
   end
 end
