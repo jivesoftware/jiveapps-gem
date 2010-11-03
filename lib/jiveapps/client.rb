@@ -75,7 +75,12 @@ class Jiveapps::Client
   end
 
   def remove_key(name)
-    delete("/ssh_keys/#{escape(name)}").to_s
+    ### Ugly hack - nginx/passenger unescapes the name before it gets to rails, causing routes to fail. double encode in production
+    if Jiveapps::WEBHOST =~ /^becker/ # in dev mode
+      delete("/ssh_keys/#{escape(name)}").to_s
+    else # in production mode
+      delete("/ssh_keys/#{escape(escape(name))}").to_s
+    end
   end
 
   ### General
