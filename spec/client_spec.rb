@@ -105,7 +105,9 @@ describe Jiveapps::Client do
     end
 
     it "remove_key(key) -> remove an ssh key by name (user@box)" do
+      ### Ugly hack - nginx/passenger unescapes the name before it gets to rails, causing routes to fail. double encode in production
       stub_api_request(:delete, "/ssh_keys/joe%40workstation")
+      stub_api_request(:delete, "/ssh_keys/joe%2540workstation") # stub the double-encoded version too.
       @client.remove_key('joe@workstation')
     end
 

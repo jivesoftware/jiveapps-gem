@@ -30,7 +30,7 @@ module Jiveapps::Command
         @cli.jiveapps.should_receive(:info).with('myapp').and_return({ 'name' => 'myapp' })
         @cli.should_receive(:display).with('=== myapp')
         @cli.should_receive(:display).with("Web URL: http://#{Jiveapps::WEBHOST}/apps/myapp/app.xml")
-        @cli.should_receive(:display).with("Git URL: git://#{Jiveapps::GITHOST}/myapp.git")
+        @cli.should_receive(:display).with("Git URL: git@#{Jiveapps::GITHOST}:myapp.git")
         @cli.info
       end
 

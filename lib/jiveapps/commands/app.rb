@@ -25,7 +25,7 @@ module Jiveapps::Command
           display "App not found."
         else
           app["web_url"] = "http://#{Jiveapps::WEBHOST}/apps/#{app['name']}/app.xml"
-          app["git_url"] = "git://#{Jiveapps::GITHOST}/#{app['name']}.git"
+          app["git_url"] = "git@#{Jiveapps::GITHOST}:#{app['name']}.git"
 
           display "=== #{app['name']}"
           display "Web URL: #{app['web_url']}"
@@ -62,7 +62,7 @@ module Jiveapps::Command
 
     def create_remote_git_repo_and_push
       jiveapps.create(app_name)
-      run("cd #{app_name} && git remote add jiveapps git://#{Jiveapps::GITHOST}/#{app_name}.git")
+      run("cd #{app_name} && git remote add jiveapps git@#{Jiveapps::GITHOST}:#{app_name}.git")
       run("cd #{app_name} && git push -q jiveapps master")
     end
 
@@ -72,7 +72,7 @@ module Jiveapps::Command
       display ""
       display "Congratulations, you have created a new Jive App!"
       display "================================================="
-      display "Git URL: git://#{Jiveapps::GITHOST}/#{app_name}.git"
+      display "Git URL: git@#{Jiveapps::GITHOST}:#{app_name}.git"
       display "App URL: http://#{Jiveapps::WEBHOST}/apps/#{app_name}/app.xml"
     end
 
