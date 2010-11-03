@@ -41,6 +41,21 @@ module Jiveapps::Command
       end
     end
 
+    # Check to see if this machine's SSH key (or the key passed in) has been registered with Jiveapps
+    def check
+      keyfile = find_key(args.first)
+      key = File.read(keyfile)
+      key_name = key.strip.split(/\s+/).last
+
+      uploaded_key_names = jiveapps.keys.map{|key| key['name']}
+
+      if uploaded_key_names.include?(key_name)
+        display "This machine's SSH key \"#{key_name}\" has been registered with Jive Apps."
+      else
+        display "This machine's SSH key \"#{key_name}\" has not been registered with Jive Apps."
+      end
+    end
+
     private
       # Finds a key in the specified path or in the default locations (~/.ssh/id_(r|d)sa.pub)
       def find_key(path=nil)
@@ -52,7 +67,7 @@ module Jiveapps::Command
             keyfile = "#{home_directory}/.ssh/id_#{key_type}.pub"
             return keyfile if File.exists? keyfile
           end
-          raise CommandFailed, "No ssh public key found in #{home_directory}/.ssh/id_[rd]sa.pub.  You may want to specify the full path to the keyfile."
+          raise CommandFailed, "No ssh public key found in #{home_directory}/.ssh/id_[rd]sa.pub.  You may want to specify the full path to the keyfile or generate it with this command: ssh-keygen -t rsa"
         end
       end
 
