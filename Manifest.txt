@@ -8,7 +8,6 @@ app_generators/create/USAGE
 app_generators/create/create_generator.rb
 app_generators/create/templates/app.xml
 app_generators/create/templates/javascripts/main.js
-app_generators/create/templates/manifest.example.json
 app_generators/create/templates/stylesheets/main.css
 autotest/discover.rb
 bin/jiveapps
@@ -23,4 +22,5 @@ lib/jiveapps/commands/keys.rb
 lib/jiveapps/helpers.rb
 spec/client_spec.rb
 spec/commands/app_spec.rb
+spec/commands/keys_spec.rb
 spec/spec_helper.rb
