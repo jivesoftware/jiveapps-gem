@@ -51,6 +51,16 @@ class Jiveapps::Client
     end
   end
 
+  def register(name)
+    item = post("/apps/#{name}/register", {})
+
+    if item.class == Hash && item['app']
+      item['app']
+    else
+      nil
+    end
+  end
+
   ### SSH Keys
 
   def keys

@@ -28,6 +28,8 @@ module Jiveapps::Command
           display "=== #{app['name']}"
           display "Git URL: #{app['git_url']}"
           display "App URL: #{app['app_url']}"
+          display "Sandbox Canvas URL: #{app['sandbox_canvas_url']}"
+          display "Sandbox Dashboard URL: #{app['sandbox_dashboard_url']}"
         end
       end
     end
@@ -38,6 +40,7 @@ module Jiveapps::Command
       create_remote_app
       generate_app
       create_local_git_repo_and_push_to_remote
+      register_app
       create_notify_user
     end
 
@@ -66,14 +69,20 @@ module Jiveapps::Command
       run("cd #{app_name} && git push -q jiveapps master")
     end
 
+    def register_app
+      @current_app = jiveapps.register(app_name)
+    end
+
     def create_notify_user
       display ""
       display ""
       display ""
       display "Congratulations, you have created a new Jive App!"
       display "================================================="
-      display "Git URL: #{current_app['git_url']}"
-      display "App URL: #{current_app['app_url']}"
+      display "Git URL:               #{current_app['git_url']}"
+      display "App URL:               #{current_app['app_url']}"
+      display "Sandbox Canvas URL:    #{current_app['sandbox_canvas_url']}"
+      display "Sandbox Dashboard URL: #{current_app['sandbox_dashboard_url']}"
     end
 
     def app_name
