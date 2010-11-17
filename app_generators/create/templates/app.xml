@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Module>
-  <ModulePrefs title="Hello World">
+  <ModulePrefs title="<%= name %>">
   </ModulePrefs>
   <Content type="html">
     <![CDATA[
       <link rel="stylesheet" href="stylesheets/main.css" type="text/css" media="screen" />
       <script type="text/javascript" charset="utf-8" src="javascripts/main.js"></script>
 
-      <p>Hello World!</p>
+      <p><%= name %>: Hello World!</p>
     ]]>
   </Content>
 </Module>
