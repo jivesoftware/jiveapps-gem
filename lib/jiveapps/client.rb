@@ -42,12 +42,20 @@ class Jiveapps::Client
   end
 
   def create(name)
-    item = post("/apps", {:app => {:name => name}})
-
-    if item.class == Hash && item['app']
-      item['app']
-    else
-      nil
+    begin
+      item = post("/apps", {:app => {:name => name}})
+      if item.class == Hash && item['app']
+        item['app']
+      else
+        nil
+      end
+    rescue => e
+      if e.response.body =~ /^\{/ # assume this is JSON if it starts with "{"
+        errors = JSON.parse(e.response.body)
+        return {"errors" => errors}
+      else
+        nil
+      end
     end
   end
 

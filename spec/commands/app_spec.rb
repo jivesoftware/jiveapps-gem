@@ -33,8 +33,8 @@ module Jiveapps::Command
           'git_url' => 'http://git_url' 
         })
         @cli.should_receive(:display).with('=== myapp')
-        @cli.should_receive(:display).with("App URL: http://app_url")
-        @cli.should_receive(:display).with("Git URL: http://git_url")
+        @cli.should_receive(:display).with("App URL:               http://app_url")
+        @cli.should_receive(:display).with("Git URL:               http://git_url")
         @cli.info
       end
 

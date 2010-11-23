@@ -26,10 +26,12 @@ module Jiveapps::Command
           display "App not found."
         else
           display "=== #{app['name']}"
-          display "Git URL: #{app['git_url']}"
-          display "App URL: #{app['app_url']}"
-          display "Sandbox Canvas URL: #{app['sandbox_canvas_url']}"
+          display "Git URL:               #{app['git_url']}"
+          display "App URL:               #{app['app_url']}"
+          display "Sandbox Canvas URL:    #{app['sandbox_canvas_url']}"
           display "Sandbox Dashboard URL: #{app['sandbox_dashboard_url']}"
+          display "OAuth Consumer Key:    #{app['oauth_consumer_key']}"
+          display "OAuth Consumer Secret: #{app['oauth_consumer_secret']}"
         end
       end
     end
@@ -52,9 +54,17 @@ module Jiveapps::Command
 
     def create_remote_app
       @current_app = jiveapps.create(app_name)
+      if @current_app["errors"]
+        if @current_app["errors"]["name"]
+          display "Error: Name #{@current_app["errors"]["name"]}"
+        end
+        @current_app = nil
+      end
     end
 
     def generate_app
+      return unless current_app
+
       require 'rubygems'
       require 'rubigen'
       require 'rubigen/scripts/generate'
@@ -63,6 +73,8 @@ module Jiveapps::Command
     end
 
     def create_local_git_repo_and_push_to_remote
+      return unless current_app
+
       run("git init #{app_name}")
       run("cd #{app_name} && git add . && git commit -q -m 'initial commit'")
       run("cd #{app_name} && git remote add jiveapps #{current_app['git_url']}")
@@ -70,10 +82,14 @@ module Jiveapps::Command
     end
 
     def register_app
+      return unless current_app
+
       @current_app = jiveapps.register(app_name)
     end
 
     def create_notify_user
+      return unless current_app
+
       display ""
       display ""
       display ""
@@ -83,6 +99,8 @@ module Jiveapps::Command
       display "App URL:               #{current_app['app_url']}"
       display "Sandbox Canvas URL:    #{current_app['sandbox_canvas_url']}"
       display "Sandbox Dashboard URL: #{current_app['sandbox_dashboard_url']}"
+      display "OAuth Consumer Key:    #{current_app['oauth_consumer_key']}"
+      display "OAuth Consumer Secret: #{current_app['oauth_consumer_secret']}"
     end
 
     def app_name
