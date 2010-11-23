@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Module>
   <ModulePrefs title="<%= name %>">
+    <Require feature="views" />
+    <Require feature="dynamic-height" />
   </ModulePrefs>
-  <Content type="html">
-    <![CDATA[
-      <link rel="stylesheet" href="stylesheets/main.css" type="text/css" media="screen" />
-      <script type="text/javascript" charset="utf-8" src="javascripts/main.js"></script>
 
-      <p><%= name %>: Hello World!</p>
-    ]]>
+  <!-- To begin development, remove the hello view and uncomment the home and canvas views below -->
+  <Content view="home,canvas" href="hello.html">
   </Content>
+
+  <!--
+  <Content view="home" href="home.html" />
+  <Content view="canvas" href="canvas.html" />
+  -->
+
 </Module>

@@ -7,6 +7,10 @@ Rakefile
 app_generators/create/USAGE
 app_generators/create/create_generator.rb
 app_generators/create/templates/app.xml
+app_generators/create/templates/canvas.html
+app_generators/create/templates/hello.html
+app_generators/create/templates/home.html
+app_generators/create/templates/images/j-icon-jaf-48.png
 app_generators/create/templates/javascripts/main.js
 app_generators/create/templates/stylesheets/main.css
 autotest/discover.rb

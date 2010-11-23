@@ -22,9 +22,15 @@ class CreateGenerator < RubiGen::Base
       BASEDIRS.each { |path| m.directory path }
 
       # Create stubs
-      m.template "app.xml",  "app.xml"
-      m.template "stylesheets/main.css", "stylesheets/main.css"
-      m.template "javascripts/main.js", "javascripts/main.js"
+      m.template "app.xml",                  "app.xml"
+      m.template "canvas.html",              "canvas.html"
+      m.template "home.html",                "home.html"
+      m.template "hello.html",               "hello.html"
+      m.template "stylesheets/main.css",     "stylesheets/main.css"
+      m.template "javascripts/main.js",      "javascripts/main.js"
+      m.file     "images/j-icon-jaf-48.png", "images/j-icon-jaf-48.png"
+
+      # Samples
       # m.template_copy_each ["template.rb", "template2.rb"]
       # m.file     "file",         "some_file_copied"
       # m.file_copy_each ["path/to/file", "path/to/file2"]
@@ -66,5 +72,6 @@ EOS
     BASEDIRS = %w(
       javascripts
       stylesheets
+      images
     )
 end
