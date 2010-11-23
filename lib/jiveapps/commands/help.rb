@@ -12,6 +12,7 @@ help                                       # show this usage
 
 list                                       # list your apps
 create <name>                              # create a new app
+install <name>                             # install an app on the sandbox (if you removed it, you can reinstall)
 
 keys                                       # show your user's public keys
 keys:add [<path to keyfile>]               # add a public key. optionally include path

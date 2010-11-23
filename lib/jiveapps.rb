@@ -1,5 +1,5 @@
 module Jiveapps
-  VERSION = '0.0.1'
+  VERSION = '0.0.4'
   WEBHOST = 'apphosting.jivesoftware.com'
   GITHOST = 'apphosting.jivesoftware.com'
 end

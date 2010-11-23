@@ -13,7 +13,7 @@ Dir["#{File.dirname(__FILE__)}/../lib/jiveapps/commands/*"].each { |c| require c
 require 'jiveapps/client'
 
 def stub_api_request(method, path)
-  stub_request(method, "http://#{Jiveapps::WEBHOST}#{path}")
+  stub_request(method, "https://#{Jiveapps::WEBHOST}#{path}")
 end
 
 def prepare_command(klass)

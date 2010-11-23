@@ -5,7 +5,7 @@ require 'json'
 class Jiveapps::Client
 
   def self.version
-    '0.0.1'
+    '0.0.4'
   end
 
   def self.gem_version_string
@@ -34,8 +34,8 @@ class Jiveapps::Client
 
   def info(name)
     begin
-      item = get("/apps/#{name}")
-      item['app']
+      item = get("/apps/#{escape(name)}")
+      item.class == Hash && item['app'] ? item['app'] : item
     rescue RestClient::ResourceNotFound
       nil
     end
@@ -60,7 +60,17 @@ class Jiveapps::Client
   end
 
   def register(name)
-    item = post("/apps/#{name}/register", {})
+    item = post("/apps/#{escape(name)}/register", {})
+
+    if item.class == Hash && item['app']
+      item['app']
+    else
+      nil
+    end
+  end
+
+  def install(name)
+    item = post("/apps/#{escape(name)}/register", {})
 
     if item.class == Hash && item['app']
       item['app']
@@ -92,12 +102,11 @@ class Jiveapps::Client
   end
 
   def remove_key(name)
-    ### Ugly hack - nginx/passenger unescapes the name before it gets to rails, causing routes to fail. double encode in production
-    if Jiveapps::WEBHOST =~ /^becker/ # in dev mode
-      delete("/ssh_keys/#{escape(name)}").to_s
-    else # in production mode
-      delete("/ssh_keys/#{escape(escape(name))}").to_s
-    end
+    delete("/ssh_keys/#{escape(name)}").to_s
+  end
+
+  def version
+    get("/gem_version").to_s
   end
 
   ### General
@@ -125,17 +134,24 @@ class Jiveapps::Client
   def process(method, uri, extra_headers={}, payload=nil)
     headers  = jiveapps_headers.merge(extra_headers)
     args     = [method, payload, headers].compact
-    response = resource(uri).send(*args)
+    begin
+      response = resource(uri).send(*args)
 
-    extract_warning(response)
-    parse_response(response.to_s)
+      extract_warning(response)
+      parse_response(response.to_s)
+    rescue => e
+      puts e.response
+    end
   end
 
   def parse_response(response)
-    if response == 'null' || response.strip.length == 0
-      return nil
+    return nil if response == 'null' || response.strip.length == 0
+    response_text = response.strip
+
+    if response_text =~ /^\{|^\[/
+      return JSON.parse(response_text)
     else
-      return JSON.parse(response.strip)
+      return response_text
     end
   end
 
@@ -150,17 +166,26 @@ class Jiveapps::Client
     }
   end
 
-  def escape(value)  # :nodoc:
+  def escape(value) # :nodoc:
+    ### Ugly hack - nginx/passenger unescapes the name before it gets to rails, causing routes to fail. double encode in production
+    if Jiveapps::WEBHOST =~ /^becker/ # in dev mode
+      _escape(value)
+    else # in production mode
+      _escape(_escape(value))
+    end
+  end
+
+  def _escape(value)  # :nodoc:
     escaped = URI.escape(value.to_s, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))
     escaped.gsub('.', '%2E') # not covered by the previous URI.escape
   end
 
   def resource(uri)
     RestClient.proxy = ENV['HTTP_PROXY'] || ENV['http_proxy']
-    if uri =~ /^https?/
+    if uri =~ /^http?/
       RestClient::Resource.new(uri, user, password)
     else
-      RestClient::Resource.new("http://#{host}", user, password)[uri]
+      RestClient::Resource.new("https://#{host}", user, password)[uri]
     end
   end
 
