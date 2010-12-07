@@ -1,7 +1,7 @@
 module Jiveapps
-  VERSION = '0.0.4'
-  WEBHOST = 'apphosting.jivesoftware.com'
-  GITHOST = 'apphosting.jivesoftware.com'
+  VERSION = '0.0.5'
+  WEBHOST = 'https://apphosting.jivesoftware.com'
+  MODE    = 'production'
 end
 
 require 'jiveapps/client'

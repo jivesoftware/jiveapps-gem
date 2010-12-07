@@ -2,6 +2,7 @@ module Jiveapps::Command
   class Help < Base
 
     def index
+      puts "jiveapps gem: v#{Jiveapps::VERSION}"
       puts <<-eos
 === Summary
 The "jiveapps" program is a command line tool for building and hosting Jive App front-ends.

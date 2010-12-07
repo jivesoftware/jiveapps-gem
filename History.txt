@@ -1,3 +1,11 @@
+=== 0.0.5 2010-12-06
+* Bug Fixes
+  * Re-enabled re-authentication
+* Major Enhancements
+  * Better user feedback when creating apps
+  * Better error reporting
+  * No longer require JSON C extension (no GCC or XCode required)
+
 === 0.0.4 2010-11-22
 * Major enhancements
   * SSL support

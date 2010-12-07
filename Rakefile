@@ -1,8 +1,10 @@
+$LOAD_PATH << './lib'
+
 require 'rubygems'
 gem 'hoe', '>= 2.1.0'
 require 'hoe'
 require 'fileutils'
-require './lib/jiveapps'
+require 'jiveapps'
 
 Hoe.plugin :newgem
 # Hoe.plugin :website
@@ -14,12 +16,12 @@ $hoe = Hoe.spec 'jiveapps' do
   self.developer 'Scott Becker', 'becker.scott@gmail.com'
   self.description          = "A set of command line tools for creating Jive Apps."
   self.summary              = self.description
-  self.version              = "0.0.4"
+  self.version              = "0.0.5"
   self.post_install_message = 'PostInstall.txt' # TODO remove if post-install message not required
   self.rubyforge_name       = self.name # TODO this is default value
   self.extra_deps           = [
     ['rest-client'],
-    ['json'],
+    ['json_pure'],
     ['rubigen']
   ]
 end
@@ -66,3 +68,15 @@ RSpec::Core::RakeTask.new('rcov') do |t|
 end
 
 task :default => :spec
+
+desc "Fix password"
+task "fix_pass" do
+  system "rm ~/.jiveapps/credentials"
+  system "cp ~/.jiveapps/credentials_right ~/.jiveapps/credentials"
+end
+
+desc "Break password"
+task "break_pass" do
+  system "rm ~/.jiveapps/credentials"
+  system "cp ~/.jiveapps/credentials_wrong ~/.jiveapps/credentials"
+end

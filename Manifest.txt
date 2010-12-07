@@ -1,4 +1,5 @@
 .rspec
+Gemfile
 History.txt
 Manifest.txt
 PostInstall.txt

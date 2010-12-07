@@ -3,8 +3,15 @@ module Jiveapps::Command
 
     attr_reader :current_app
 
+    def version
+      display Jiveapps::Client.gem_version_string
+    end
+
     def list
-      formatted_list = jiveapps.list.map do |app|
+      jiveapps_list = jiveapps.list
+      return if jiveapps_list.nil?
+
+      formatted_list = jiveapps_list.map do |app|
         "  - " + app['name']
       end
 
@@ -32,8 +39,10 @@ module Jiveapps::Command
     end
 
     def create
-      # check auth credentials and ssh key before generating app
-      Jiveapps::Command.run_internal('auth:check', [])
+      debug "Running in debug mode."
+      app_list = Jiveapps::Command.run_internal('auth:check', []) # check auth credentials and ssh key before generating app
+      return unless app_list.class == Array
+      display "Creating new Jive App \"#{app_name}\"..."
       create_remote_app
       generate_app
       create_local_git_repo_and_push_to_remote
@@ -42,11 +51,13 @@ module Jiveapps::Command
     end
 
     def install
+      display "Installing \"#{app_name}\" on the Jive App Sandbox: ", false
       app = jiveapps.install(app_name)
+      handle_response_errors
       if app == nil
         display "App not found."
       else
-        display "=== #{app['name']} - Installed"
+        display "=== #{app['name']}"
         display_app_info(app)
       end
     end
@@ -65,19 +76,14 @@ module Jiveapps::Command
     end
 
     def create_remote_app
-      debug "Creating remote app."
+      display "Step 1 of 4. Check availability and create remote repository: ", false
       @current_app = jiveapps.create(app_name)
-      if @current_app.class == Hash && @current_app["errors"]
-        if @current_app["errors"]["name"]
-          display "Error: Name #{@current_app["errors"]["name"]}"
-        end
-        @current_app = nil
-      end
+      handle_response_errors
     end
 
     def generate_app
       return unless current_app
-      debug "Generating local app."
+      display "Step 2 of 4. Generate app scaffolding."
 
       require 'rubygems'
       require 'rubigen'
@@ -88,7 +94,7 @@ module Jiveapps::Command
 
     def create_local_git_repo_and_push_to_remote
       return unless current_app
-      debug "Creating local git repo and pushing to remote."
+      display "Step 3 of 4. Creating local Git repository and push to remote: ", false
 
       Dir.chdir(File.join(Dir.pwd, app_name)) do
 
@@ -98,13 +104,20 @@ module Jiveapps::Command
         run("git remote add jiveapps #{current_app['git_url']}")
         run("git push jiveapps master")
       end
+
+      if $? == 0
+        display "SUCCESS"
+      else
+        display "FAILURE"
+      end
     end
 
     def register_app
       return unless current_app
-      debug "Registering app."
+      display "Step 4 of 4. Registering app on the Jive Apps Dev Center and installing on sandbox: ", false
 
       @current_app = jiveapps.register(app_name)
+      handle_response_errors
     end
 
     def create_notify_user
@@ -146,6 +159,18 @@ module Jiveapps::Command
     def debug(msg)
       if debug_mode?
         puts "DEBUG: #{msg}"
+      end
+    end
+
+    def handle_response_errors
+      if @current_app.class == Hash && @current_app["errors"]
+        display "FAILURE"
+        @current_app["errors"].each do |key, value|
+          display "Error on \"#{key}\": #{value}"
+        end
+        @current_app = nil
+      else
+        display "SUCCESS"
       end
     end
 

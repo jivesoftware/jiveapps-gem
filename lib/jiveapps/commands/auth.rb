@@ -62,7 +62,7 @@ module Jiveapps::Command
     end
 
     def ask_for_credentials
-      puts "Enter your Jiveapps credentials."
+      puts "Enter your Jive Apps Developer Community credentials. (https://developers.jivesoftware.com)"
 
       print "Username: "
       user = ask
