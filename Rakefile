@@ -14,11 +14,9 @@ Hoe.plugin :newgem
 # Run 'rake -T' to see list of generated tasks (from gem root directory)
 $hoe = Hoe.spec 'jiveapps' do
   self.developer 'Scott Becker', 'becker.scott@gmail.com'
-  self.description          = "A set of command line tools for creating Jive Apps."
-  self.summary              = self.description
   self.version              = "0.0.6"
-  self.post_install_message = 'PostInstall.txt' # TODO remove if post-install message not required
   self.rubyforge_name       = self.name # TODO this is default value
+  self.extra_rdoc_files << 'README.rdoc'
   self.extra_deps           = [
     ['activesupport', '2.3.5'],
     ['rest-client', '1.6.1'],
@@ -32,15 +30,6 @@ Dir['tasks/**/*.rake'].each { |t| load t }
 # TODO - want other tests/tasks run by default? Add them to the list
 # remove_task :default
 # task :default => [:spec, :features]
-
-
-
-### gems this gem depends on
-# rest_client
-# json_pure (or json)
-# rubigen
-# rspec (2.0.0.rc)
-# webmock 1.4.0 (for development/testing)
 
 ################
 

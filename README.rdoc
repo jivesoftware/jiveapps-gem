@@ -1,26 +1,47 @@
 = jiveapps
 
-* http://github.com/#{github_username}/#{project_name}
+* https://github.com/jivesoftware/jiveapps-gem
 
 == DESCRIPTION:
 
-FIX (describe your package)
+The "jiveapps" gem is a set of command line tools for building and hosting Jive App front-ends.
 
-== FEATURES/PROBLEMS:
-
-* FIX (list of features or problems)
+These tools are all about making app development as easy as possible. After you install the tools, it only takes a single command to:
+ 
+Create a new app - a simple Hello World application.
+Set up version control for your code using Git.
+Host the app code online at Jive's AppHosting server.
+Register the app on the Jive Apps Marketplace as an app "in development".
+Install the app on your default app dashboard in the Jive Apps Sandbox.
+ 
+After you install, use this simple workflow to make changes and see them reflected in the sandbox:
+ 
+Make a change to the code on your local machine.
+Commit the changes to your local Git repository.
+Push the changes to the remote Jive Apps repository. This automatically updates the hosted copy on the Jive AppHosting server.
+Refresh the app dashboard or canvas page on the Jive Apps Sandbox and see your changes.
 
 == SYNOPSIS:
 
-  FIX (code sample of usage)
+Simple Workflow Example
+
+$ jiveapps create myapp                    # create a new app named "myapp"
+$ cd myapp                                 # switch into app's directory
+
+ ... develop your app ...
+
+$ git add .                                # stage all files for commit
+$ git commit -m "some updates to my app"   # commit to your local git repository
+$ git push jiveapps master                 # push updates to jive
 
 == REQUIREMENTS:
 
-* FIX (list of requirements)
+1. Sign up as a developer on the Jive Apps Developer Community: https://developers.jivesoftware.com
+2. Follow the setup instructions here: https://developers.jivesoftware.com/community/docs/DOC-1115
 
 == INSTALL:
 
-* FIX (sudo gem install, anything else)
+sudo gem install jiveapps
 
 == LICENSE:
 
