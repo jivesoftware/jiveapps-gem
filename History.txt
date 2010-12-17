@@ -1,3 +1,9 @@
+=== 0.0.6 2010-12-17
+* Bug Fixes
+  * Fix NoMethodError on Step 4 of jiveapps create. (remove the json_pure gem and use the JSON encoding/decoding functionality already in activesupport)
+  * Fix "Could not find main page README.rdoc" warning on install
+  * Fix issue where CLT re-uploads SSH key when entering user credentials, gets 422 response / stack trace if it already exists on the server
+
 === 0.0.5 2010-12-06
 * Bug Fixes
   * Re-enabled re-authentication
