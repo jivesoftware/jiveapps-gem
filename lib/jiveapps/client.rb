@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'rest_client'
-require 'json'
+require 'active_support'
 
 class Jiveapps::Client
 
@@ -47,7 +47,7 @@ class Jiveapps::Client
       end
     rescue => e
       if e.response.body =~ /^\{/ # assume this is JSON if it starts with "{"
-        errors = JSON.parse(e.response.body)
+        errors = ActiveSupport::JSON.decode(e.response.body)
         return {"errors" => errors}
       else
         nil
@@ -108,11 +108,11 @@ class Jiveapps::Client
   end
 
   def post(uri, object, extra_headers={})    # :nodoc:
-    process(:post, uri, extra_headers, JSON.dump(object))
+    process(:post, uri, extra_headers, ActiveSupport::JSON.encode(object))
   end
 
   def put(uri, object, extra_headers={})    # :nodoc:
-    process(:put, uri, extra_headers, JSON.dump(object))
+    process(:put, uri, extra_headers, ActiveSupport::JSON.encode(object))
   end
 
   def delete(uri, extra_headers={})    # :nodoc:
@@ -138,7 +138,7 @@ class Jiveapps::Client
     response_text = response.strip
 
     if response_text =~ /^\{|^\[/
-      return JSON.parse(response_text)
+      return ActiveSupport::JSON.decode(response_text)
     else
       return response_text
     end

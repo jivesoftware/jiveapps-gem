@@ -5,6 +5,6 @@ group :test do
   gem 'webmock', '>= 1.6.1'
 end
 
-gem 'rest-client', '>= 1.6.1'
-gem 'rubigen', '>= 1.5.5'
-gem 'json_pure', '>= 1.4.6'
+gem 'activesupport', '2.3.5'
+gem 'rest-client', '1.6.1'
+gem 'rubigen', '1.5.5'

@@ -16,13 +16,13 @@ $hoe = Hoe.spec 'jiveapps' do
   self.developer 'Scott Becker', 'becker.scott@gmail.com'
   self.description          = "A set of command line tools for creating Jive Apps."
   self.summary              = self.description
-  self.version              = "0.0.5"
+  self.version              = "0.0.6"
   self.post_install_message = 'PostInstall.txt' # TODO remove if post-install message not required
   self.rubyforge_name       = self.name # TODO this is default value
   self.extra_deps           = [
-    ['rest-client'],
-    ['json_pure'],
-    ['rubigen']
+    ['activesupport', '2.3.5'],
+    ['rest-client', '1.6.1'],
+    ['rubigen', '1.5.5']
   ]
 end
 
