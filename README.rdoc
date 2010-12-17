@@ -8,18 +8,18 @@ The "jiveapps" gem is a set of command line tools for building and hosting Jive 
 
 These tools are all about making app development as easy as possible. After you install the tools, it only takes a single command to:
 
-(1) Create a new app - a simple Hello World application.
-(2) Set up version control for your code using Git.
-(3) Host the app code online at Jive's AppHosting server.
-(4) Register the app on the Jive Apps Marketplace as an app "in development".
-(5) Install the app on your default app dashboard in the Jive Apps Sandbox.
+1. Create a new app - a simple Hello World application.
+2. Set up version control for your code using Git.
+3. Host the app code online at Jive's AppHosting server.
+4. Register the app on the Jive Apps Marketplace as an app "in development".
+5. Install the app on your default app dashboard in the Jive Apps Sandbox.
 
 After you install, use this simple workflow to make changes and see them reflected in the sandbox:
 
-(1) Make a change to the code on your local machine.
-(2) Commit the changes to your local Git repository.
-(3) Push the changes to the remote Jive Apps repository. This automatically updates the hosted copy on the Jive AppHosting server.
-(4) Refresh the app dashboard or canvas page on the Jive Apps Sandbox and see your changes.
+1. Make a change to the code on your local machine.
+2. Commit the changes to your local Git repository.
+3. Push the changes to the remote Jive Apps repository. This automatically updates the hosted copy on the Jive AppHosting server.
+4. Refresh the app dashboard or canvas page on the Jive Apps Sandbox and see your changes.
 
 == SYNOPSIS:
 
@@ -36,8 +36,8 @@ Simple Workflow Example
 
 == REQUIREMENTS:
 
-(1) Sign up as a developer on the Jive Apps Developer Community: https://developers.jivesoftware.com
-(2) Follow the setup instructions here: https://developers.jivesoftware.com/community/docs/DOC-1115
+1. Sign up as a developer on the Jive Apps Developer Community: https://developers.jivesoftware.com
+2. Follow the setup instructions here: https://developers.jivesoftware.com/community/docs/DOC-1115
 
 == INSTALL:
 
