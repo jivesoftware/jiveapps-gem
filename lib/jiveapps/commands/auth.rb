@@ -1,3 +1,5 @@
+require 'fileutils'
+
 module Jiveapps::Command
   class Auth < Base
     attr_accessor :credentials
