@@ -59,6 +59,10 @@ class Jiveapps::Client
     post_app("/apps", {:app => {:name => name}})
   end
 
+  def delete_app(name)
+    delete("/apps/#{escape(name)}").to_s
+  end
+
   def register(name)
     post_app("/apps/#{escape(name)}/register", {})
   end

@@ -1,3 +1,3 @@
 module Jiveapps
-  VERSION = '0.0.7.rc'
+  VERSION = '0.0.7'
 end

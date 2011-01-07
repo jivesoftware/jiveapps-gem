@@ -42,6 +42,7 @@ module Jiveapps::Command
       debug "Running in debug mode."
       app_list = Jiveapps::Command.run_internal('auth:check', []) # check auth credentials and ssh key before generating app
       return unless app_list.class == Array
+      Jiveapps::Command.run_internal('keys:add', [])
       display "Creating new Jive App \"#{app_name}\"..."
       create_remote_app
       generate_app
@@ -109,6 +110,12 @@ module Jiveapps::Command
         display "SUCCESS"
       else
         display "FAILURE"
+        display "Git Push failed. Deleting app and cleaning up. Check SSH key and try again:\n\n" +
+                "$ jiveapps keys:list\n" +
+                "$ jiveapps keys:remove <user@machine>\n" +
+                "$ jiveapps keys:add\n" +
+                "$ jiveapps create #{app_name}"
+        delete_app
       end
     end
 
@@ -118,6 +125,12 @@ module Jiveapps::Command
 
       @current_app = jiveapps.register(app_name)
       handle_response_errors
+    end
+
+    def delete_app
+      run("rm -rf #{app_name}")
+      jiveapps.delete_app(app_name)
+      @current_app = nil # halt further actions
     end
 
     def create_notify_user
