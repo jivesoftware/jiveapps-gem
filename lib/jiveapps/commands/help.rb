@@ -12,8 +12,9 @@ The "jiveapps" program is a command line tool for building and hosting Jive App 
 help                                       # show this usage
 
 list                                       # list your apps
-create <name>                              # create a new app
-install <name>                             # install an app on the sandbox (if you removed it, you can reinstall)
+create <app name>                          # create a new app
+info <app name>                            # displays information about an app
+install <app name>                         # install an app on the sandbox (if you removed it, you can reinstall)
 
 keys                                       # show your user's public keys
 keys:add [<path to keyfile>]               # add a public key. optionally include path
