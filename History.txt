@@ -1,3 +1,9 @@
+=== 0.0.7 2011-01-07
+* Bug fixes
+  * If Git push fails, delete app and clean up. 
+  * Sync SSH key whenever creating a new app to avoid Git push failures.
+  * Require "fileutils" for older versions of ruby 1.8.6 that do not load it by default
+
 === 0.0.6 2010-12-17
 * Bug Fixes
   * Fix NoMethodError on Step 4 of jiveapps create. (remove the json_pure gem and use the JSON encoding/decoding functionality already in activesupport)
