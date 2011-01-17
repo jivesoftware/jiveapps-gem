@@ -97,6 +97,20 @@ class Jiveapps::Client
     delete("/ssh_keys/#{escape(name)}").to_s
   end
 
+  ### OAuth Services
+
+  def oauth_services
+    services = get('/oauth_services')
+
+    if services.class == Array
+      services.map { |item| item['oauth_service'] }
+    else
+      return []
+    end
+  end
+
+  
+
   def version
     get("/gem_version").to_s
   end

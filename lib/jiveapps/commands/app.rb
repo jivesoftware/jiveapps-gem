@@ -148,6 +148,15 @@ module Jiveapps::Command
       display "Sandbox Dashboard URL: #{app['sandbox_dashboard_url']}"
       display "OAuth Consumer Key:    #{app['oauth_consumer_key']}"
       display "OAuth Consumer Secret: #{app['oauth_consumer_secret']}"
+      if app['oauth_services'] && app['oauth_services'].length > 0
+        display "OAuth Services:"
+        app['oauth_services'].each do |oauth_service_hash|
+          oauth_service = oauth_service_hash["oauth_service"]
+          display "  Name:   #{oauth_service["name"]}"
+          display "  Key:    #{oauth_service["key"]}"
+          display "  Secret: #{oauth_service["secret"]}"
+        end
+      end
     end
     
     def app_name

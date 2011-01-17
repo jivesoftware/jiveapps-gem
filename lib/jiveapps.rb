@@ -1,5 +1,5 @@
 module Jiveapps
-  WEBHOST = 'https://apphosting.jivesoftware.com'
+  WEBHOST = 'http://apphosting-dev.jivesoftware.com'
   MODE    = 'production'
 end
 
