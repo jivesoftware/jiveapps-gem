@@ -195,4 +195,8 @@ class Jiveapps::Client
     end
   end
 
+  def git_host
+    host.gsub(/^(http|https):\/\//, '')
+  end
+
 end

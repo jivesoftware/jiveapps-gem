@@ -24,17 +24,13 @@ module Jiveapps::Command
     end
 
     def info
-      if app_name == nil
-        display "No app specified."
-        display "Run this command from app folder or set it by running: jiveapps info <app name>"
+      name = (args.first && !args.first =~ /^\-\-/) ? args.first : extract_app
+      app = jiveapps.info(name)
+      if app == nil
+        display "App not found."
       else
-        app = jiveapps.info(app_name)
-        if app == nil
-          display "App not found."
-        else
-          display "=== #{app['name']}"
-          display_app_info(app)
-        end
+        display "=== #{app['name']}"
+        display_app_info(app)
       end
     end
 

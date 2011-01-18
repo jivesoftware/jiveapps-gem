@@ -25,6 +25,16 @@ module Jiveapps
           else
             error "Authentication failure"
           end
+        rescue RestClient::ResourceNotFound => e
+          error extract_not_found(e.http_body)
+        rescue RestClient::RequestFailed => e
+          error extract_error(e.http_body) unless e.http_code == 402
+        rescue RestClient::RequestTimeout
+          error "API request timed out. Please try again, or contact Jive via the community at https://developers.jivesoftware.com if this issue persists."
+        rescue CommandFailed => e
+          error e.message
+        rescue Interrupt => e
+          error "\n[canceled]"
         end
       end
 

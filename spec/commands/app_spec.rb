@@ -39,17 +39,21 @@ module Jiveapps::Command
       end
 
       it "shows 'App not found.' when name specified and rest client does not return an app" do
-        @cli.stub!(:args).and_return(['invalid_app'])
-        @cli.jiveapps.should_receive(:info).with('invalid_app').and_return(nil)
+        @cli.jiveapps.should_receive(:info).with('myapp').and_return(nil)
         @cli.should_receive(:display).with('App not found.')
         @cli.info
       end
 
-      it "shows 'No app specified.' when no name specified" do
+      it "shows app info using the --app syntax" do
+        @cli.stub!(:args).and_return(['--app', 'myapp'])
+        @cli.jiveapps.should_receive(:info).with('myapp').and_return({ :collaborators => [], :addons => []})
+        @cli.info
+      end
+
+      it "shows app info reading app from current git dir" do
         @cli.stub!(:args).and_return([])
-        @cli.jiveapps.should_not_receive(:info)
-        @cli.should_receive(:display).with('No app specified.')
-        @cli.should_receive(:display).with('Run this command from app folder or set it by running: jiveapps info <app name>')
+        @cli.stub!(:extract_app_in_dir).and_return('myapp')
+        @cli.jiveapps.should_receive(:info).with('myapp').and_return({ :collaborators => [], :addons => []})
         @cli.info
       end
 
