@@ -65,12 +65,26 @@ module Jiveapps
         end
       end
 
+      def extract_not_found(body)
+        body =~ /^[\w\s]+ not found$/ ? body : "Resource not found"
+      end
 
-      ### Helpers
+      def extract_error(body)
+        msg = parse_error_xml(body) || parse_error_json(body) || 'Internal server error'
+        msg.split("\n").map { |line| ' !   ' + line }.join("\n")
+      end
 
-      def error(msg)
-        STDERR.puts(msg)
-        exit 1
+      def parse_error_xml(body)
+        xml_errors = REXML::Document.new(body).elements.to_a("//errors/error")
+        msg = xml_errors.map { |a| a.text }.join(" / ")
+        return msg unless msg.empty?
+      rescue Exception
+      end
+
+      def parse_error_json(body)
+        json = JSON.parse(body.to_s)
+        json['error']
+      rescue JSON::ParserError
       end
 
     end

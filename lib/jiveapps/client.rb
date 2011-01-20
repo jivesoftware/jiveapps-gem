@@ -99,8 +99,8 @@ class Jiveapps::Client
 
   ### OAuth Services
 
-  def oauth_services
-    services = get('/oauth_services')
+  def oauth_services(app_name)
+    services = get("/apps/#{app_name}/oauth_services")
 
     if services.class == Array
       services.map { |item| item['oauth_service'] }
@@ -109,13 +109,19 @@ class Jiveapps::Client
     end
   end
 
-  
+  def add_oauth_service(app_name, name, key, secret)
+    post("/apps/#{app_name}/oauth_services", {:oauth_service => {:name => name, :key => key, :secret => secret}})
+  end
+
+  def remove_oauth_service(app_name, name)
+    delete("/apps/#{app_name}/oauth_services/#{name}")
+  end
+
+  ### General
 
   def version
     get("/gem_version").to_s
   end
-
-  ### General
 
   def on_warning(&blk)
     @warning_callback = blk

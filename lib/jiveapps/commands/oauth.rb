@@ -1,82 +1,53 @@
 module Jiveapps::Command
   class Oauth < Base
 
-    # Lists uploaded SSH keys
+    # Lists OAuth Services registered for this app
     def list
-      long = args.any? { |a| a == '--long' }
-      oauth_services = jiveapps.oauth_services
+      app_name = extract_app
+
+      oauth_services = jiveapps.oauth_services(app_name)
       if oauth_services.empty?
-        display "No oauth services for #{jiveapps.user}"
+        display "No oauth services for #{app_name}"
       else
-        display "=== #{ssh_keys.size} key#{'s' if ssh_keys.size > 1} for #{jiveapps.user}"
-        ssh_keys.each do |ssh_key|
-          display long ? ssh_key['key'].strip : format_key_for_display(ssh_key['key'])
+        display "=== #{oauth_services.size} service#{'s' if oauth_services.size > 1} for #{app_name}"
+        oauth_services.each_with_index do |oauth_service, index|
+          display "  #{index+1}. #{format_key_for_display(oauth_service)}"
         end
       end
     end
     alias :index :list
 
-    # Uploads an SSH Key
-    # - args.first can either be a path to a key file or be nil. if nil, looks in default paths
+    # Register a new OAuth Service for use with this app
     def add
-      keyfile = find_key(args.first)
-      key = File.read(keyfile)
+      usage  = 'jiveapps oauth:add <servicename> <key> <secret>'
+      app_name = extract_app
+      raise CommandFailed, "Missing servicename. Usage:\n#{usage}" unless servicename = args.shift
+      raise CommandFailed, "Missing key. Usage:\n#{usage}"         unless key         = args.shift
+      raise CommandFailed, "Missing secret. Usage:\n#{usage}"      unless secret      = args.shift
 
-      display "Uploading ssh public key #{keyfile}"
-      jiveapps.add_key(key)
+      display "=== Registering a new OAuth Service: \"#{servicename}\""
+      response = jiveapps.add_oauth_service(app_name, servicename, key, secret)
+      Jiveapps::Command.run_internal('oauth:list', [])
     end
 
-    # Remove an SSH key
-    # - args.first must be the name of the key
+    # Remove an OAuth Service
     def remove
-      if args.first == nil
-        display "No key specified. Please specify key to remove, for example:\n$ jiveapps keys:remove name@host"
-        return
-      end
-      begin
-        jiveapps.remove_key(args.first)
-        display "Key #{args.first} removed."
-      rescue RestClient::ResourceNotFound
-        display "Key #{args.first} not found."
-      end
-    end
+      usage  = 'jiveapps oauth:remove <servicename>'
+      app_name = extract_app
+      raise CommandFailed, "Missing servicename. Usage:\n#{usage}" unless servicename = args.shift
 
-    # Check to see if this machine's SSH key (or the key passed in) has been registered with Jiveapps
-    def check
-      keyfile = find_key(args.first)
-      key = File.read(keyfile)
-      key_name = key.strip.split(/\s+/).last
-
-      uploaded_key_names = jiveapps.keys.map{|key| key['name']}
-
-      if uploaded_key_names.include?(key_name)
-        display "This machine's SSH key \"#{key_name}\" has been registered with Jive Apps."
-      else
-        display "This machine's SSH key \"#{key_name}\" has not been registered with Jive Apps."
+      if confirm "Are you sure you wish to remove the OAuth service \"#{servicename}\"? (y/n)?"
+        display "=== Removing Oauth Service \"#{servicename}\""
+        response = jiveapps.remove_oauth_service(app_name, servicename)
+        Jiveapps::Command.run_internal('oauth:list', [])
       end
     end
 
-    private
-      # Finds a key in the specified path or in the default locations (~/.ssh/id_(r|d)sa.pub)
-      def find_key(path=nil)
-        if !path.nil? && path.length > 0
-          return path if File.exists? path
-          raise CommandFailed, "No ssh public key found in #{path}."
-        else
-          %w(rsa dsa).each do |key_type|
-            keyfile = "#{home_directory}/.ssh/id_#{key_type}.pub"
-            return keyfile if File.exists? keyfile
-          end
-          raise CommandFailed, "No ssh public key found in #{home_directory}/.ssh/id_[rd]sa.pub.  You may want to specify the full path to the keyfile or generate it with this command: ssh-keygen -t rsa"
-        end
-      end
-
-      # Formats an SSH key for display by trimming out the middle
+      # Formats an Oauth Service for display
       # Example Output:
-      # ssh-rsa AAAAB3NzaC...Fyoke4MQ== pablo@jive
-      def format_key_for_display(key)
-        type, hex, local = key.strip.split(/\s/)
-        [type, hex[0,10] + '...' + hex[-10,10], local].join(' ')
+      # Service Name: "twitter", Key: "41873830eef3438893c04a6c2e2cfd86", Secret: "4BD1//Y+9Jdp0/B4zfG2BCoszDY="
+      def format_key_for_display(oauth_service)
+        "Name: \"#{oauth_service['name']}\", Key: \"#{oauth_service['key']}\", Secret: \"#{oauth_service['secret']}\""
       end
 
   end
