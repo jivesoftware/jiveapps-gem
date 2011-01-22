@@ -44,7 +44,7 @@ describe Jiveapps::Client do
   end
 
   it "info -> get app attributes" do
-    stub_api_request(:get, "/apps/myapp").to_return(:body => <<-EOXML)
+    stub_api_request(:get, "/apps/myapp?extended=true").to_return(:body => <<-EOXML)
       {"app":{"name":"myapp","created_at":"2010-10-15T23:59:10Z","updated_at":"2010-10-15T23:59:10Z","id":1}}
     EOXML
 
