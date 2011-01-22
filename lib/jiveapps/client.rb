@@ -30,7 +30,7 @@ class Jiveapps::Client
 
   def info(name)
     begin
-      item = get("/apps/#{escape(name)}")
+      item = get("/apps/#{escape(name)}?extended=true")
       item.class == Hash && item['app'] ? item['app'] : item
     rescue RestClient::ResourceNotFound
       nil
