@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Module>
-  <ModulePrefs title="<%= name %>">
-    <Require feature="views" />
+  <ModulePrefs title="<%= name %>"
+               author="<%= author_name = `git config --global user.name`.to_s.strip; author_name.length > 0 ? author_name : 'TODO: Author Name' %>"
+               height="300"
+               description="TODO: Replace with real description of <%= name %> inside app.xml: Module/ModulePrefs/description"
+               thumbnail="<%= Jiveapps::WEBHOST %>/apps/<%= name %>/images/j-icon-jaf-48.png">
     <Require feature="dynamic-height" />
+    <Require feature="jive-core-5.0.0" />
+    <Require feature="opensocial-1.0"/>
+    <Require feature="osapi"/>
+    <Require feature="settitle"/>
+    <Require feature="views" />
   </ModulePrefs>
 
   <!-- To begin development, remove the hello view and uncomment the home and canvas views below -->
