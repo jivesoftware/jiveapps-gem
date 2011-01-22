@@ -62,5 +62,25 @@ module Jiveapps
       gets.strip
     end
 
+    # Display Oauth Service list
+    # Example Output:
+    # === 2 OAuth services for app-name
+    # 1. "foo" Service
+    #      Consumer Key:     bar
+    #      Consumer Secret:  baz
+    # 2. "foo2" Service
+    #      Consumer Key:     bar
+    #      Consumer Secret:  baz
+    def display_oauth_services(oauth_services, app_name)
+      if oauth_services.empty?
+        display "No OAuth Services for #{app_name}"
+      else
+        display "=== #{oauth_services.size} OAuth Service#{'s' if oauth_services.size > 1} for #{app_name}"
+        oauth_services.each_with_index do |oauth_service, index|
+          display "#{index+1}. \"#{oauth_service['name']}\" Service\n     Consumer Key:     #{oauth_service['key']}\n     Consumer Secret:  #{oauth_service['secret']}"
+        end
+      end
+    end
+
   end
 end
