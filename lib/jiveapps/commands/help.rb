@@ -12,13 +12,17 @@ The "jiveapps" program is a command line tool for building and hosting Jive App 
 help                                       # show this usage
 
 list                                       # list your apps
-create <app name>                          # create a new app
-info <app name>                            # displays information about an app
-install <app name>                         # install an app on the sandbox (if you removed it, you can reinstall)
+create <app_name>                          # create a new app
+info [--app <app_name>]                    # displays information about an app
+install [--app <app_name>]                 # install an app on the sandbox (if you removed it, you can reinstall)
 
 keys                                       # show your user's public keys
 keys:add [<path to keyfile>]               # add a public key. optionally include path
 keys:remove <keyname>                      # remove a key by name (user@host)
+
+oauth                                      # show the oauth services for this app
+oauth:add <service_name> <key> <secret>    # add an oauth service for this app
+oauth:remove <service_name>                # remove an oauth service for this app
 
 === Simple Workflow Example:
 

@@ -1,3 +1,10 @@
+=== 0.0.8
+* Major Enhancements
+  * OAuth Services management for 3rd party services. Added jiveapps oauth:list, oauth:add, and oauth:remove commands.
+  * Display OAuth Services when running "jiveapps info"
+  * Auto-detect app name from within an app directory. No longer need to pass app name to "jiveapps info"
+  * Add recommended default module prefs and required features to template.
+
 === 0.0.7 2011-01-07
 * Bug fixes
   * If Git push fails, delete app and clean up. 
