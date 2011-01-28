@@ -1,4 +1,4 @@
-=== 0.0.8
+=== 0.0.8 2011-01-28
 * Major Enhancements
   * OAuth Services management for 3rd party services. Added jiveapps oauth:list, oauth:add, and oauth:remove commands.
   * Display OAuth Services when running "jiveapps info"
