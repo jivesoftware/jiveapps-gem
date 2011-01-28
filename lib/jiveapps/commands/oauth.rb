@@ -20,7 +20,7 @@ module Jiveapps::Command
 
       display "=== Registering a new OAuth Service: \"#{servicename}\""
       response = jiveapps.add_oauth_service(app_name, servicename, key, secret)
-      Jiveapps::Command.run_internal('oauth:list', [])
+      Jiveapps::Command.run_internal('oauth:list', ["--app", app_name])
     end
 
     # Remove an OAuth Service
@@ -32,7 +32,7 @@ module Jiveapps::Command
       if confirm "Are you sure you wish to remove the OAuth service \"#{servicename}\"? (y/n)?"
         display "=== Removing Oauth Service \"#{servicename}\""
         response = jiveapps.remove_oauth_service(app_name, servicename)
-        Jiveapps::Command.run_internal('oauth:list', [])
+        Jiveapps::Command.run_internal('oauth:list', ["--app", app_name])
       end
     end
 
