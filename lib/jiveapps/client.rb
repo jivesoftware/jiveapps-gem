@@ -117,6 +117,29 @@ class Jiveapps::Client
     delete("/apps/#{app_name}/oauth_services/#{name}")
   end
 
+  ### Collaborators
+
+  # Get a list of collaborators on the app, returns an array of hashes each with :email
+  def list_collaborators(app_name)
+    collaborators = get("/apps/#{app_name}/collaborators")
+
+    if collaborators.class == Array
+      collaborators.map { |item| {:username => item['collaborator']['user']['username']} }
+    else
+      return []
+    end
+  end
+
+  # Invite a person by username to collaborate on the app.
+  def add_collaborator(app_name, username)
+    post("/apps/#{app_name}/collaborators", {:collaborator => {:username => username}})
+  end
+
+  # Remove a collaborator.
+  def remove_collaborator(app_name, username)
+    delete("/apps/#{app_name}/collaborators/#{escape(username)}").to_s
+  end
+
   ### General
 
   def version

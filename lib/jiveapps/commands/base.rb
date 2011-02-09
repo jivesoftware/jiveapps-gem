@@ -86,4 +86,14 @@ module Jiveapps::Command
     end
 
   end
+
+  class BaseWithApp < Base
+    attr_accessor :app
+
+    def initialize(args, jiveapps=nil)
+      super(args, jiveapps)
+      @app ||= extract_app
+    end
+  end
+
 end

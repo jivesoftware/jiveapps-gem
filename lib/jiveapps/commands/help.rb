@@ -24,6 +24,10 @@ oauth                                      # show the oauth services for this ap
 oauth:add <service_name> <key> <secret>    # add an oauth service for this app
 oauth:remove <service_name>                # remove an oauth service for this app
 
+sharing                                    # list collaborators
+sharing:add <username>                     # add a collaborator
+sharing:remove <username>                  # remove a collaborator
+
 === Simple Workflow Example:
 
 $ jiveapps create myapp                    # create a new app named "myapp"

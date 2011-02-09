@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    jiveapps (0.0.8.alpha)
+    jiveapps (0.1.0.alpha)
       activesupport (= 2.3.5)
       rest-client (= 1.6.1)
       rubigen (= 1.5.5)
@@ -34,9 +34,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activesupport (= 2.3.5)
   jiveapps!
-  rest-client (= 1.6.1)
   rspec (>= 2.2.0)
-  rubigen (= 1.5.5)
   webmock (>= 1.6.1)
