@@ -1,16 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Module>
+<Module specificationVersion="1.0.0">
   <ModulePrefs title="<%= name %>"
-               author="<%= author_name = `git config --global user.name`.to_s.strip; author_name.length > 0 ? author_name : 'TODO: Author Name' %>"
-               height="300"
                description="TODO: Replace with real description of <%= name %> inside app.xml: Module/ModulePrefs/description"
-               thumbnail="<%= Jiveapps::WEBHOST %>/apps/<%= name %>/images/j-icon-jaf-48.png">
+               author="<%= author_name = `git config --global user.name`.to_s.strip; author_name.length > 0 ? author_name : 'TODO: Author Name' %>"
+               author_aboutme="about me"
+               author_affiliation="Company Nmae"
+               author_email="<%= author_email = `git config --global user.email`.to_s.strip; author_email.length > 0 ? author_email : 'TODO: Author Email' %>"
+               author_link="http://example.com"
+               author_location="Company Location"
+               author_photo="http://example.com/photo"
+               author_quote="quote"
+               height="300"
+               thumbnail="<%= Jiveapps::WEBHOST %>/apps/<%= name %>/images/thumbnail.png"
+               screenshot="<%= Jiveapps::WEBHOST %>/apps/<%= name %>/images/screenshot.png">
+
+    <!-- Commonly used features -->
     <Require feature="dynamic-height" />
     <Require feature="jive-core-v2" />
-    <Require feature="opensocial-1.0"/>
     <Require feature="osapi"/>
     <Require feature="settitle"/>
     <Require feature="views" />
+
+    <!-- Icons - 3 sizes, 16x16, 48x48, 128x128 -->
+    <!--
+    <Link rel="Icon"       href="<%= Jiveapps::WEBHOST %>/apps/<%= name %>/images/icon16.png" />
+    <Link rel="MediumIcon" href="<%= Jiveapps::WEBHOST %>/apps/<%= name %>/images/icon48.png" />
+    <Link rel="LargeIcon"  href="<%= Jiveapps::WEBHOST %>/apps/<%= name %>/images/icon128.png" />
+    -->
+
+    <!-- OAuth Services: https://developers.jivesoftware.com/community/docs/DOC-1161 -->
+    <!--
+    <OAuth>
+      <Service name="example">
+        <Access url="http://api.example.com/oauth/access_token" method="POST" />
+        <Request url="http://api.example.com/oauth/request_token" method="POST" />
+        <Authorization url="http://api.example.com/oauth/authorize" />
+      </Service>
+    </OAuth>
+    -->
+
+    <!-- Lifecycle Events: https://developers.jivesoftware.com/community/docs/DOC-1119 -->
+    <!--
+    <link rel="event.addapp" href="http://www.example.com/add" />
+    <link rel="event.removeapp" href="http://www.example.com/remove" />
+    -->
+
+    <!-- User Preferences: http://code.google.com/apis/gadgets/docs/reference.html#Userprefs_Ref -->
+    <!--
+    <UserPref name="where_i_live" display_name="Where I Live" datatype="string" default_value="" required="false" />
+    <UserPref name="where_i_work" display_name="Where I Work" datatype="bool"   default_value="" required="false" />
+    <UserPref name="difficulty"
+         display_name="Difficulty"
+         datatype="enum"
+         default_value="2">
+      <EnumValue value="1" display_value="Easy"/>
+      <EnumValue value="2" display_value="Medium"/>
+      <EnumValue value="3" display_value="Hard"/>
+    </UserPref>
+    -->
+
+    <!-- Preloaded Content: http://wiki.opensocial.org/index.php?title=Remote_Data_Requests_%28v0.9%29#Preloading_data -->
+    <!--
+    <Preload href="http://www.example.com" />
+    -->
+
   </ModulePrefs>
 
   <!-- To begin development, remove the hello view and uncomment the home and canvas views below -->
@@ -20,6 +73,11 @@
   <!--
   <Content view="home" href="home.html" />
   <Content view="canvas" href="canvas.html" />
+  -->
+
+  <!-- Custom Views -->
+  <!--
+  <Content view="about" href="about.html" />
   -->
 
 </Module>
