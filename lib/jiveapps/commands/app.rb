@@ -48,8 +48,9 @@ module Jiveapps::Command
     end
 
     def install
-      display "Installing \"#{app_name}\" on the Jive App Sandbox: ", false
-      app = jiveapps.install(app_name)
+      name = (args.first && !args.first =~ /^\-\-/) ? args.first : extract_app
+      display "Installing \"#{name}\" on the Jive App Sandbox: ", false
+      app = jiveapps.install(name)
       handle_response_errors
       if app == nil
         display "App not found."
