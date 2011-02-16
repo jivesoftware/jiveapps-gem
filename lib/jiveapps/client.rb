@@ -48,7 +48,7 @@ class Jiveapps::Client
     rescue => e
       if e.response.body =~ /^\{/ # assume this is JSON if it starts with "{"
         errors = ActiveSupport::JSON.decode(e.response.body)
-        return {"errors" => errors}
+        return errors
       else
         nil
       end

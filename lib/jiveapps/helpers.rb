@@ -58,6 +58,7 @@ module Jiveapps
       end
     end
 
+    # Ask user for input, trim the response
     def ask
       gets.strip
     end

@@ -23,13 +23,6 @@ module Jiveapps::Command
       end
     end
 
-    # def transfer
-    #   username = args.shift.downcase rescue ''
-    #   raise(CommandFailed, "Specify the email address of the new owner") if username == ''
-    #   jiveapps.update(app, :transfer_owner => username)
-    #   display "App ownership transfered. New owner is #{username}"
-    # end
-
     def display_collaborators
       collaborators = jiveapps.list_collaborators(app)
       display "=== #{collaborators.length} #{collaborators.length == 1 ? 'user has' : 'users have'} commit access to #{app}"

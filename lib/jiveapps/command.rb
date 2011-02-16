@@ -70,21 +70,22 @@ module Jiveapps
       end
 
       def extract_error(body)
-        msg = parse_error_xml(body) || parse_error_json(body) || 'Internal server error'
+        msg = parse_error_json(body) || 'Internal server error'
         msg.split("\n").map { |line| ' !   ' + line }.join("\n")
       end
 
-      def parse_error_xml(body)
-        xml_errors = REXML::Document.new(body).elements.to_a("//errors/error")
-        msg = xml_errors.map { |a| a.text }.join(" / ")
-        return msg unless msg.empty?
-      rescue Exception
-      end
-
       def parse_error_json(body)
-        json = JSON.parse(body.to_s)
-        json['error']
-      rescue JSON::ParserError
+        json = ActiveSupport::JSON.decode(body.to_s)
+        error_hash = json['errors']
+        return if error_hash.nil?
+        results = ["Errors:"]
+        error_hash.each do |key, errors|
+          errors.each do |error|
+            results << "- #{key} #{error}"
+          end
+        end
+        results.join("\n")
+      rescue StandardError
       end
 
     end
