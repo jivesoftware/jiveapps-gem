@@ -28,7 +28,9 @@ class CreateGenerator < RubiGen::Base
       m.template "hello.html",               "hello.html"
       m.template "stylesheets/main.css",     "stylesheets/main.css"
       m.template "javascripts/main.js",      "javascripts/main.js"
-      m.file     "images/j-icon-jaf-48.png", "images/j-icon-jaf-48.png"
+      m.file     "images/icon16.png",        "images/icon16.png"
+      m.file     "images/icon48.png",        "images/icon48.png"
+      m.file     "images/icon128.png",       "images/icon128.png"
 
       # Samples
       # m.template_copy_each ["template.rb", "template2.rb"]
