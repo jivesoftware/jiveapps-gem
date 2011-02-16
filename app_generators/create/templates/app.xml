@@ -3,13 +3,8 @@
   <ModulePrefs title="<%= name %>"
                description="TODO: Replace with real description of <%= name %> inside app.xml: Module/ModulePrefs/description"
                author="<%= author_name = `git config --global user.name`.to_s.strip; author_name.length > 0 ? author_name : 'TODO: Author Name' %>"
-               author_aboutme="about me"
-               author_affiliation="Company Nmae"
+               author_affiliation="Company Name"
                author_email="<%= author_email = `git config --global user.email`.to_s.strip; author_email.length > 0 ? author_email : 'TODO: Author Email' %>"
-               author_link="http://example.com"
-               author_location="Company Location"
-               author_photo="http://example.com/photo"
-               author_quote="quote"
                height="300"
                thumbnail="<%= Jiveapps::WEBHOST %>/apps/<%= name %>/images/thumbnail.png"
                screenshot="<%= Jiveapps::WEBHOST %>/apps/<%= name %>/images/screenshot.png">
@@ -71,11 +66,6 @@
   <!--
   <Content view="home" href="home.html" />
   <Content view="canvas" href="canvas.html" />
-  -->
-
-  <!-- Custom Views -->
-  <!--
-  <Content view="about" href="about.html" />
   -->
 
 </Module>
