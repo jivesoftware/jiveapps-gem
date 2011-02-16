@@ -1,4 +1,9 @@
-=== 0.0.8 2011-01-28
+=== 0.1.0 2011-02-16
+* Major enhancements
+  * Multi Developer Collaboration features. Added jiveapps sharing:list, sharing:add, and sharing:remove commands.
+  * Updated app templates to include more examples of commonly used Jive App features.
+
+=== 0.0.9 2011-01-28
 * Minor enhancement
   * Updated app code generator to require feature "jive-core-v2" instead of "jive-core-5.0.0"
 
