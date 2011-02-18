@@ -63,6 +63,17 @@ module Jiveapps
       gets.strip
     end
 
+    def usage(text)
+      @usage = "\n  Usage:\n  $ #{text}"
+    end
+
+    def catch_args(*list)
+      while current_arg = args.shift
+        instance_variable_set "@#{list.shift}", current_arg
+      end
+      raise Jiveapps::Command::CommandFailed, "Missing #{list.length} parameter#{list.length > 1 ? 's' : ''}: #{list.map{|l| '<' + l.to_s + '>'}.join(' ')}#{@usage}" if list.length > 0
+    end
+
     # Display Oauth Service list
     # Example Output:
     # === 2 OAuth services for app-name

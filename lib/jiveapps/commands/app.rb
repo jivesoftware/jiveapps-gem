@@ -34,12 +34,33 @@ module Jiveapps::Command
       end
     end
 
+    def clone
+      usage "jiveapps clone <appname>"
+      catch_args :appname
+
+      app = jiveapps.info(@appname)
+      if app == nil
+        display "=== App not found."
+      else
+        # if dir already exists, output message and stop
+        if File.exists?(@appname) && File.directory?(@appname)
+          display "=== #{@appname} folder already exists."
+        else
+          display "=== Cloning #{@appname}..."
+          `git clone #{app['git_url']} --origin jiveapps`
+        end
+      end
+    end
+
     def create
+      usage    = "\n  Usage:\n  $ jiveapps create <appname>"
+      catch_args :appname
+
       debug "Running in debug mode."
       app_list = Jiveapps::Command.run_internal('auth:check', []) # check auth credentials and ssh key before generating app
       return unless app_list.class == Array
       Jiveapps::Command.run_internal('keys:add', [])
-      display "Creating new Jive App \"#{app_name}\"..."
+      display "=== Creating new Jive App \"#{@appname}\"..."
       create_remote_app
       generate_app
       create_local_git_repo_and_push_to_remote
@@ -49,7 +70,7 @@ module Jiveapps::Command
 
     def install
       name = (args.first && !args.first =~ /^\-\-/) ? args.first : extract_app
-      display "Installing \"#{name}\" on the Jive App Sandbox: ", false
+      display "=== Installing \"#{name}\" on the Jive App Sandbox: ", false
       app = jiveapps.install(name)
       handle_response_errors
       if app == nil
@@ -75,7 +96,7 @@ module Jiveapps::Command
 
     def create_remote_app
       display "Step 1 of 4. Check availability and create remote repository: ", false
-      @current_app = jiveapps.create(app_name)
+      @current_app = jiveapps.create(@appname)
       handle_response_errors
     end
 
@@ -87,14 +108,14 @@ module Jiveapps::Command
       require 'rubigen'
       require 'rubigen/scripts/generate'
       RubiGen::Base.use_application_sources!
-      RubiGen::Scripts::Generate.new.run(@args, :generator => 'create')
+      RubiGen::Scripts::Generate.new.run([@appname], :generator => 'create')
     end
 
     def create_local_git_repo_and_push_to_remote
       return unless current_app
       display "Step 3 of 4. Creating local Git repository and push to remote: ", false
 
-      Dir.chdir(File.join(Dir.pwd, app_name)) do
+      Dir.chdir(File.join(Dir.pwd, @appname)) do
 
         run("git init")
         run("git add .")
@@ -111,7 +132,7 @@ module Jiveapps::Command
                 "$ jiveapps keys:list\n" +
                 "$ jiveapps keys:remove <user@machine>\n" +
                 "$ jiveapps keys:add\n" +
-                "$ jiveapps create #{app_name}"
+                "$ jiveapps create #{@appname}"
         delete_app
       end
     end
@@ -120,13 +141,13 @@ module Jiveapps::Command
       return unless current_app
       display "Step 4 of 4. Registering app on the Jive Apps Dev Center and installing on sandbox: ", false
 
-      @current_app = jiveapps.register(app_name)
+      @current_app = jiveapps.register(@appname)
       handle_response_errors
     end
 
     def delete_app
-      run("rm -rf #{app_name}")
-      jiveapps.delete_app(app_name)
+      run("rm -rf #{@appname}")
+      jiveapps.delete_app(@appname)
       @current_app = nil # halt further actions
     end
 
@@ -155,10 +176,6 @@ module Jiveapps::Command
       end
     end
     
-    def app_name
-      args.first
-    end
-
     def run(command)
       if debug_mode?
         puts "DEBUG: $ #{command}"

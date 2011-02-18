@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    jiveapps (0.1.0.alpha)
+    jiveapps (0.1.1.alpha)
       activesupport (= 2.3.5)
       rest-client (= 1.6.1)
       rubigen (= 1.5.5)
