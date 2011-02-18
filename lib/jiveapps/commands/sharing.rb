@@ -6,21 +6,22 @@ module Jiveapps::Command
     alias :index :list
 
     def add
-      username = args.shift.downcase rescue ''
-      raise(CommandFailed, "Specify a username to give commit access to.") if username == ''
-      display "=== Adding commit access to #{app} for \"#{username}\""
-      jiveapps.add_collaborator(app, username)
+      usage "jiveapps sharing:add <username>"
+      catch_args :username
+
+      display "=== Adding commit access to #{app} for \"#{@username}\""
+      jiveapps.add_collaborator(app, @username)
       display_collaborators
     end
 
     def remove
-      username = args.shift.downcase rescue ''
-      raise(CommandFailed, "Specify a username to remove commit access from.") if username == ''
-      if confirm("Are you sure you wish to remove commit access to #{app} for \"#{username}\"? (y/n)?")
-        display "=== Removing commit access to #{app} for \"#{username}\""
-        jiveapps.remove_collaborator(app, username)
-        display_collaborators
-      end
+      usage "jiveapps sharing:remove <username>"
+      catch_args :username
+
+      return unless confirm("Are you sure you wish to remove commit access to #{app} for \"#{@username}\"? (y/n)?")
+      display "=== Removing commit access to #{app} for \"#{@username}\""
+      jiveapps.remove_collaborator(app, @username)
+      display_collaborators
     end
 
     def display_collaborators
