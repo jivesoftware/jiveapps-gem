@@ -1,3 +1,8 @@
+=== 0.1.1 2011-02-21
+* Major enhancements
+  * "jiveapps clone <appname>" command, shortcut for git clone command for jive apps
+  * Better user feedback for usage output and argument for oauth and sharing commands
+
 === 0.1.0 2011-02-16
 * Major enhancements
   * Multi Developer Collaboration features. Added jiveapps sharing:list, sharing:add, and sharing:remove commands.

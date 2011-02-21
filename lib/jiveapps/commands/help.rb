@@ -13,6 +13,8 @@ help                                       # show this usage
 
 list                                       # list your apps
 create <app_name>                          # create a new app
+clone <app_name>                           # clone the repository of an existing app
+
 info [--app <app_name>]                    # displays information about an app
 install [--app <app_name>]                 # install an app on the sandbox (if you removed it, you can reinstall)
 
