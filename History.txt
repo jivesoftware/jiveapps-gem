@@ -1,3 +1,9 @@
+=== 0.1.2 2011-03-17
+* Minor enhancements
+  * Update absolute url paths in app generator to point to /apps/dev/... instead of /apps/... to match new dev paths
+* Compatibility Fixes
+  * require 'thread' in bin/jiveapps for RubyGems 1.6.x compatibility, which no longer includes it by default
+
 === 0.1.1 2011-02-21
 * Major enhancements
   * "jiveapps clone <appname>" command, shortcut for git clone command for jive apps
