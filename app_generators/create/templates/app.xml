@@ -6,8 +6,8 @@
                author_affiliation="Company Name"
                author_email="<%= author_email = `git config --global user.email`.to_s.strip; author_email.length > 0 ? author_email : 'TODO: Author Email' %>"
                height="300"
-               thumbnail="<%= Jiveapps::WEBHOST %>/apps/<%= name %>/images/thumbnail.png"
-               screenshot="<%= Jiveapps::WEBHOST %>/apps/<%= name %>/images/screenshot.png">
+               thumbnail="<%= Jiveapps::WEBHOST %>/apps/dev/<%= name %>/images/thumbnail.png"
+               screenshot="<%= Jiveapps::WEBHOST %>/apps/dev/<%= name %>/images/screenshot.png">
 
     <!-- Commonly used features -->
     <Require feature="dynamic-height" />
@@ -17,9 +17,9 @@
     <Require feature="views" />
 
     <!-- Icons - 3 sizes, 16x16, 48x48, 128x128 -->
-    <Link rel="Icon"       href="<%= Jiveapps::WEBHOST %>/apps/<%= name %>/images/icon16.png" />
-    <Link rel="MediumIcon" href="<%= Jiveapps::WEBHOST %>/apps/<%= name %>/images/icon48.png" />
-    <Link rel="LargeIcon"  href="<%= Jiveapps::WEBHOST %>/apps/<%= name %>/images/icon128.png" />
+    <Link rel="Icon"       href="<%= Jiveapps::WEBHOST %>/apps/dev/<%= name %>/images/icon16.png" />
+    <Link rel="MediumIcon" href="<%= Jiveapps::WEBHOST %>/apps/dev/<%= name %>/images/icon48.png" />
+    <Link rel="LargeIcon"  href="<%= Jiveapps::WEBHOST %>/apps/dev/<%= name %>/images/icon128.png" />
 
     <!-- OAuth Services: https://developers.jivesoftware.com/community/docs/DOC-1161 -->
     <!--
