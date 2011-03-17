@@ -3,6 +3,8 @@
 lib = File.expand_path(File.dirname(__FILE__) + '/../lib')
 $LOAD_PATH.unshift(lib) if File.directory?(lib) && !$LOAD_PATH.include?(lib)
 
+require 'thread' # RubyGems 1.6.x compatibility
+
 require 'jiveapps'
 require 'jiveapps/command'
 
