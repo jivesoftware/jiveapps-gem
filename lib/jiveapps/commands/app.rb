@@ -47,7 +47,7 @@ module Jiveapps::Command
           display "=== #{@appname} folder already exists."
         else
           display "=== Cloning #{@appname}..."
-          `git clone #{app['git_url']} --origin jiveapps`
+          run("git clone #{app['git_url']} --origin jiveapps")
         end
       end
     end
@@ -82,17 +82,6 @@ module Jiveapps::Command
     end
 
     private
-
-    def debug_mode?
-      return @debug_mode if @debug_mode.nil? == false
-
-      if args.include?('--debug')
-        args.delete('--debug')
-        @debug_mode = true
-      else
-        @debug_mode = false
-      end
-    end
 
     def create_remote_app
       display "Step 1 of 4. Check availability and create remote repository: ", false
@@ -173,23 +162,6 @@ module Jiveapps::Command
       if app['oauth_services'] && app['oauth_services'].length > 0
         oauth_services = app['oauth_services'].map{ |o| o['oauth_service'] }
         display_oauth_services(oauth_services, app['name'])
-      end
-    end
-    
-    def run(command)
-      if debug_mode?
-        puts "DEBUG: $ #{command}"
-        `#{command}`
-      elsif running_on_windows?
-        `#{command}` # TODO: figure out how to silence on Windows
-      else
-        `#{command} > /dev/null 2>&1` # silent
-      end
-    end
-
-    def debug(msg)
-      if debug_mode?
-        puts "DEBUG: #{msg}"
       end
     end
 

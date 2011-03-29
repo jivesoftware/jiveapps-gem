@@ -71,6 +71,10 @@ class Jiveapps::Client
     post_app("/apps/#{escape(name)}/install", {})
   end
 
+  def livedev(name, mode)
+    post_app("/apps/#{escape(name)}/livedev?mode=#{mode}", {})
+  end
+
   ### SSH Keys
 
   def keys

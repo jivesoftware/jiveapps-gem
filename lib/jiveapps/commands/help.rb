@@ -30,6 +30,8 @@ sharing                                    # list collaborators
 sharing:add <username>                     # add a collaborator
 sharing:remove <username>                  # remove a collaborator
 
+livedev                                    # start livedev mode
+
 === Simple Workflow Example:
 
 $ jiveapps create myapp                    # create a new app named "myapp"

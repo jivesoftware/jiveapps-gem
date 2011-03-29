@@ -74,6 +74,34 @@ module Jiveapps
       raise Jiveapps::Command::CommandFailed, "Missing #{list.length} parameter#{list.length > 1 ? 's' : ''}: #{list.map{|l| '<' + l.to_s + '>'}.join(' ')}#{@usage}" if list.length > 0
     end
 
+    def run(command)
+      if debug_mode?
+        puts "DEBUG: $ #{command}"
+        `#{command}`
+      elsif running_on_windows?
+        `#{command}` # TODO: figure out how to silence on Windows
+      else
+        `#{command} > /dev/null 2>&1` # silent
+      end
+    end
+
+    def debug_mode?
+      return @debug_mode if @debug_mode.nil? == false
+
+      if args.include?('--debug')
+        args.delete('--debug')
+        @debug_mode = true
+      else
+        @debug_mode = false
+      end
+    end
+
+    def debug(msg)
+      if debug_mode?
+        puts "DEBUG: #{msg}"
+      end
+    end
+
     # Display Oauth Service list
     # Example Output:
     # === 2 OAuth services for app-name
