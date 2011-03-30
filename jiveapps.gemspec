@@ -41,6 +41,7 @@ Other features:
   s.add_dependency 'rubigen',           '1.5.5'
 
   s.add_development_dependency 'rspec',   '>= 2.2.0'
+  s.add_development_dependency 'rcov',    '>= 0.9.9'
   s.add_development_dependency 'webmock', '>= 1.6.1'
 
   s.files         = `git ls-files`.split("\n")
