@@ -103,7 +103,7 @@ class Jiveapps::Client
 
   ### OAuth Services
 
-  def oauth_services(app_name)
+  def list_oauth_services(app_name)
     services = get("/apps/#{app_name}/oauth_services")
 
     if services.class == Array

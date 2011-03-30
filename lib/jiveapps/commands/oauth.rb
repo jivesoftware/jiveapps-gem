@@ -3,7 +3,7 @@ module Jiveapps::Command
 
     # Lists OAuth Services registered for this app
     def list
-      oauth_services = jiveapps.oauth_services(app)
+      oauth_services = jiveapps.list_oauth_services(app)
       display_oauth_services(oauth_services, app)
     end
     alias :index :list
@@ -15,7 +15,7 @@ module Jiveapps::Command
 
       display "=== Registering a new OAuth Service: \"#{@servicename}\""
       response = jiveapps.add_oauth_service(app, @servicename, @key, @secret)
-      Jiveapps::Command.run_internal('oauth:list', ["--app", app])
+      list
     end
 
     # Remove an OAuth Service
@@ -26,7 +26,7 @@ module Jiveapps::Command
       return unless confirm "Are you sure you wish to remove the OAuth service \"#{@servicename}\"? (y/n)?"
       display "=== Removing Oauth Service \"#{@servicename}\""
       response = jiveapps.remove_oauth_service(app, @servicename)
-      Jiveapps::Command.run_internal('oauth:list', ["--app", app])
+      list
     end
 
   end
