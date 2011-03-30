@@ -7,7 +7,7 @@ module Jiveapps::Command
       if info == nil
         display "App not found."
       else
-        display "=== Starting LiveDev: #{info['name']}"
+        display "=== Starting LiveDev: #{app}"
 
         display "1/4: Checking out LiveDev branch #{branch_name}."
 
