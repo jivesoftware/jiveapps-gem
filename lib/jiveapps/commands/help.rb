@@ -2,47 +2,46 @@ module Jiveapps::Command
   class Help < Base
 
     def index
-      puts "jiveapps gem: v#{Jiveapps::VERSION}"
-      puts <<-eos
-=== Summary
-The "jiveapps" program is a command line tool for building and hosting Jive App front-ends.
-
-=== General Commands
-
-help                                       # show this usage
-
-list                                       # list your apps
-create <app_name>                          # create a new app
-clone <app_name>                           # clone the repository of an existing app
-
-info [--app <app_name>]                    # displays information about an app
-install [--app <app_name>]                 # install an app on the sandbox (if you removed it, you can reinstall)
-
-keys                                       # show your user's public keys
-keys:add [<path to keyfile>]               # add a public key. optionally include path
-keys:remove <keyname>                      # remove a key by name (user@host)
-
-oauth                                      # show the oauth services for this app
-oauth:add <service_name> <key> <secret>    # add an oauth service for this app
-oauth:remove <service_name>                # remove an oauth service for this app
-
-sharing                                    # list collaborators
-sharing:add <username>                     # add a collaborator
-sharing:remove <username>                  # remove a collaborator
-
-livedev                                    # start livedev mode
-
-=== Simple Workflow Example:
-
-$ jiveapps create myapp                    # create a new app named "myapp"
-$ cd myapp                                 # switch into app's directory
-
- ... develop your app ...
-
-$ git add .                                # stage all files for commit
-$ git commit -m "some updates to my app"   # commit to your local git repository
-$ git push jiveapps master                 # push updates to jive
-eos
+      display "jiveapps gem: v#{Jiveapps::VERSION}"
+      display ""
+      display "=== Summary"
+      display "The \"jiveapps\" program is a command line tool for building and hosting Jive App front-ends."
+      display ""
+      display "=== General Commands"
+      display ""
+      display "help                                       # show this usage"
+      display ""
+      display "list                                       # list your apps"
+      display "create <app_name>                          # create a new app"
+      display "clone <app_name>                           # clone the repository of an existing app"
+      display ""
+      display "info [--app <app_name>]                    # displays information about an app"
+      display "install [--app <app_name>]                 # install an app on the sandbox (if you removed it, you can reinstall)"
+      display ""
+      display "keys                                       # show your user\'s public keys"
+      display "keys:add [<path to keyfile>]               # add a public key. optionally include path"
+      display "keys:remove <keyname>                      # remove a key by name (user@host)"
+      display ""
+      display "oauth                                      # show the oauth services for this app"
+      display "oauth:add <service_name> <key> <secret>    # add an oauth service for this app"
+      display "oauth:remove <service_name>                # remove an oauth service for this app"
+      display ""
+      display "sharing                                    # list collaborators"
+      display "sharing:add <username>                     # add a collaborator"
+      display "sharing:remove <username>                  # remove a collaborator"
+      display ""
+      display "livedev                                    # start livedev mode"
+      display ""
+      display "=== Simple Workflow Example:"
+      display ""
+      display "$ jiveapps create myapp                    # create a new app named \"myapp\""
+      display "$ cd myapp                                 # switch into app\'s directory"
+      display ""
+      display " ... develop your app ..."
+      display ""
+      display "$ git add .                                # stage all files for commit"
+      display "$ git commit -m \"some updates to my app\"   # commit to your local git repository"
+      display "$ git push jiveapps master                 # push updates to jive"
     end
 
   end
