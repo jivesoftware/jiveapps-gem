@@ -11,11 +11,11 @@ module Jiveapps::Command
 
       File.stub(:open).with(".git/livedev", 'w').and_return(true)
 
-      @branch_name = 'livedev/testuser'
+      @livedev_branch_name = 'livedev/testuser'
     end
 
     it "should name livedev branch name 'livedev/<username>'" do
-      @cli.send(:branch_name).should == @branch_name
+      @cli.send(:livedev_branch_name).should == @livedev_branch_name
     end
 
     context "on" do
@@ -36,14 +36,14 @@ module Jiveapps::Command
       end
 
       it "should check out the existing livedev branch if it exists" do
-        Kernel.should_receive(:system).with("git show-ref --quiet --verify refs/heads/#{@branch_name}").and_return(true)
-        @cli.should_receive(:run).with("git checkout #{@branch_name}")
+        Kernel.should_receive(:system).with("git show-ref --quiet --verify refs/heads/#{@livedev_branch_name}").and_return(true)
+        @cli.should_receive(:run).with("git checkout #{@livedev_branch_name}")
         @cli.on
       end
 
       it "should check out a new livedev branch if it does not exists" do
-        Kernel.should_receive(:system).with("git show-ref --quiet --verify refs/heads/#{@branch_name}").and_return(false)
-        @cli.should_receive(:run).with("git checkout -b #{@branch_name}")
+        Kernel.should_receive(:system).with("git show-ref --quiet --verify refs/heads/#{@livedev_branch_name}").and_return(false)
+        @cli.should_receive(:run).with("git checkout -b #{@livedev_branch_name}")
         @cli.on
       end
 
@@ -75,8 +75,8 @@ module Jiveapps::Command
       end
 
       it "should see if changes exist between livedev and master, and if so do a merge squash" do
-        @cli.stub(:`).with("git diff #{@branch_name} master").and_return("differences")
-        @cli.should_receive(:run).with("git merge #{@branch_name} --squash")
+        @cli.stub(:`).with("git diff #{@livedev_branch_name} master").and_return("differences")
+        @cli.should_receive(:run).with("git merge #{@livedev_branch_name} --squash")
         @cli.off
       end
 

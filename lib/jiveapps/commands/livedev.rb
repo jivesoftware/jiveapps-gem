@@ -17,20 +17,13 @@ module Jiveapps::Command
 
         display "=== Starting LiveDev: #{app}"
 
-        display "1/4: Checking out LiveDev branch #{branch_name}."
+        display "1/4: Checking out LiveDev branch #{livedev_branch_name}."
 
-        # check if livedev branch exists...
-        if Kernel.system("git show-ref --quiet --verify refs/heads/#{branch_name}")
-          # if it does, switch to it
-          run("git checkout #{branch_name}")
-        else
-          # if it doesn't, create it and switch to it, and do an initial push
-          run("git checkout -b #{branch_name}")
-        end
+        checkout_livedev_branch
 
         # sync remote livedev branch with local - force update to match local
         display "2/4: Syncing local branch with remote server."
-        run("git push -f jiveapps #{branch_name}")
+        run("git push -f jiveapps #{livedev_branch_name}")
 
         # switch server to run in livedev mode
         display "3/4: Switching the Jive App Sandbox to point to LiveDev branch."
@@ -62,9 +55,9 @@ module Jiveapps::Command
       run("git checkout master")
       run("git pull jiveapps master")
 
-      if `git diff #{branch_name} master`.length > 0
+      if `git diff #{livedev_branch_name} master`.length > 0
         display "3/3: Merging changes from LiveDev branch without committing."
-        run("git merge #{branch_name} --squash")
+        run("git merge #{livedev_branch_name} --squash")
 
         display "\n\n\n=== You can now review your changes, then keep or forget them:"
         display " 1. Review your changes:"
@@ -74,11 +67,11 @@ module Jiveapps::Command
         display " 2. Commit them to the master branch:"
         display "    $ git commit -m 'your commit message here'"
         display "    $ git push jiveapps master"
-        display "    $ git branch -D #{branch_name}"
+        display "    $ git branch -D #{livedev_branch_name}"
         display ""
         display " 3. Or forget them:"
         display "    $ git reset --hard HEAD"
-        display "    $ git branch -D #{branch_name}"
+        display "    $ git branch -D #{livedev_branch_name}"
       else
         display "=== No changes exist in the LiveDev branch. Now running in standard dev mode."
       end
@@ -86,15 +79,37 @@ module Jiveapps::Command
 
     private
 
-      def branch_name
+      def livedev_branch_name
         "livedev/#{jiveapps.user}"
+      end
+
+      def current_branch_name
+        `git branch --no-color 2> /dev/null | sed -e '/^[^*]/d'`.gsub(/\* /, '').strip
+      end
+
+      def checkout_livedev_branch
+        # check if livedev branch exists...
+        if Kernel.system("git show-ref --quiet --verify refs/heads/#{livedev_branch_name}")
+          # if it does, switch to it
+          run("git checkout #{livedev_branch_name}")
+        else
+          # if it doesn't, create it and switch to it, and do an initial push
+          run("git checkout -b #{livedev_branch_name}")
+        end
+      end
+
+      def verify_livedev_branch
+        if current_branch_name != livedev_branch_name
+          checkout_livedev_branch
+        end
       end
 
       def watch_dir_and_commit_changes
         @dw = DirectoryWatcher.new '.', :glob => '**/*', :pre_load => true
         @dw.interval = 1
         @dw.add_observer do |*args| 
-          args.each do |event| 
+          args.each do |event|
+            verify_livedev_branch
             if event.type == :added || event.type == :modified
               run("git add #{event.path}")
             elsif event.type == :removed
@@ -102,7 +117,7 @@ module Jiveapps::Command
             end
             display "  - [#{Time.now.strftime("%Y-%m-%d %T")}] LiveDev: #{event.type} #{event.path}"
             run("git commit -m \"LiveDev: #{event.type} '#{event.path}'\"")
-            run("git push -f jiveapps #{branch_name}")
+            run("git push -f jiveapps #{livedev_branch_name}")
           end
         end
 
