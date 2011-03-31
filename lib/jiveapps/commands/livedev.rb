@@ -51,20 +51,34 @@ module Jiveapps::Command
       display "1/3: Switching the Jive App Sandbox to point to master branch."
       jiveapps.livedev(app, 'off')
 
-      display "2/3: Checking out master branch."
+      display "2/3: Checking out master branch and pulling any remote changes."
       run("git checkout master")
       run("git pull jiveapps master")
 
       if `git diff #{livedev_branch_name} master`.length > 0
         display "3/3: Merging changes from LiveDev branch without committing."
-        run("git merge #{livedev_branch_name} --squash")
+        result = `git merge #{livedev_branch_name} --squash`
+
+        # Check if a merge conflict occurred and display git message if so
+        if result =~ /CONFLICT/
+          puts "\n\n=== Merge conflicts occured:"
+          puts result
+        end
 
         display "\n\n\n=== You can now review your changes, then keep or forget them:"
         display " 1. Review your changes:"
         display "    $ git status"
-        display "    $ git diff --cached"
+        display "    $ git diff --cached  # review changes staged for commit"
+        display "    $ git diff           # review conflicts" if result =~ /CONFLICT/
         display ""
+
+        if result =~ /CONFLICT/
+          display "        ... edit and fix conflicts ..."
+          display ""
+        end
+
         display " 2. Commit them to the master branch:"
+        display "    $ git add <fixed-conflict-file-names>" if result =~ /CONFLICT/
         display "    $ git commit -m 'your commit message here'"
         display "    $ git push jiveapps master"
         display "    $ git branch -D #{livedev_branch_name}"

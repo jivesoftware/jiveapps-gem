@@ -76,7 +76,7 @@ module Jiveapps::Command
 
       it "should see if changes exist between livedev and master, and if so do a merge squash" do
         @cli.stub(:`).with("git diff #{@livedev_branch_name} master").and_return("differences")
-        @cli.should_receive(:run).with("git merge #{@livedev_branch_name} --squash")
+        @cli.should_receive(:`).with("git merge #{@livedev_branch_name} --squash")
         @cli.off
       end
 
