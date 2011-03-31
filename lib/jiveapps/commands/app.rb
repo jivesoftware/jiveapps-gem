@@ -111,6 +111,7 @@ module Jiveapps::Command
         run('git commit -m "initial commit"')
         run("git remote add jiveapps #{current_app['git_url']}")
         run("git push jiveapps master")
+        run("git branch --set-upstream master jiveapps/master")
       end
 
       if $? == 0
