@@ -60,6 +60,7 @@ module Jiveapps::Command
 
       display "2/3: Checking out master branch."
       run("git checkout master")
+      run("git pull jiveapps master")
 
       if `git diff #{branch_name} master`.length > 0
         display "3/3: Merging changes from LiveDev branch without committing."
@@ -67,6 +68,7 @@ module Jiveapps::Command
 
         display "\n\n\n=== You can now review your changes, then keep or forget them:"
         display " 1. Review your changes:"
+        display "    $ git status"
         display "    $ git diff --cached"
         display ""
         display " 2. Commit them to the master branch:"
