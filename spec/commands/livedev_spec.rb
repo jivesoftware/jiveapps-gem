@@ -9,6 +9,8 @@ module Jiveapps::Command
       @cli.stub(:watch_dir_and_commit_changes)
       @cli.jiveapps.stub(:livedev)
 
+      File.stub(:open).with(".git/livedev", 'w').and_return(true)
+
       @branch_name = 'livedev/testuser'
     end
 

@@ -7,6 +7,14 @@ module Jiveapps::Command
       if info == nil
         display "App not found."
       else
+        # Check if LiveDev is already running...
+        if File.exist?(".git/livedev")
+          return unless confirm "LiveDev appears to already be running in another window.\nIf so, you should not run it twice, or strange things could happen.\nAre you sure you wish to continue? (y/n)?"
+        else
+          # Create livedev run file so above check can happen if command is run in two separate terminals
+          File.open(".git/livedev", 'w') {|f| f.write("") }
+        end
+
         display "=== Starting LiveDev: #{app}"
 
         display "1/4: Checking out LiveDev branch #{branch_name}."
@@ -40,7 +48,12 @@ module Jiveapps::Command
 
     def off
       display "\n\n\n=== Stopping LiveDev: #{app}"
-      
+
+      # remove livedev run file if it exists
+      if File.exist?(".git/livedev")
+        File.delete(".git/livedev")
+      end
+
       # switch server to run in normal mode
       display "1/3: Switching the Jive App Sandbox to point to master branch."
       jiveapps.livedev(app, 'off')
