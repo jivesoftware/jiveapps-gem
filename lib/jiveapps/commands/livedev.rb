@@ -7,11 +7,14 @@ module Jiveapps::Command
       if info == nil
         display "App not found."
       else
+        check_for_jiveapps_remote(info)
+
         # Check if LiveDev is already running...
         if File.exist?(".git/livedev")
           return unless confirm "LiveDev appears to already be running in another window.\nIf so, you should not run it twice, or strange things could happen.\nAre you sure you wish to continue? (y/n)?"
         else
-          # Create livedev run file so above check can happen if command is run in two separate terminals
+          # Create livedev run file so above check can happen
+          # if command is run in two separate terminals
           File.open(".git/livedev", 'w') {|f| f.write("") }
         end
 
@@ -147,6 +150,18 @@ module Jiveapps::Command
         regex = Regexp.new('[\\n\\s\\*]+' + Regexp.escape(branch.to_s) + '\\n')
         result = ((branches =~ regex) ? true : false)
         return result
+      end
+
+      def remote_exists?(remote)
+        remotes = `git remote`.strip.split(/\n/)
+        remotes.include?(remote)
+      end
+
+      def check_for_jiveapps_remote(info)
+        unless remote_exists?("jiveapps")
+          run("git remote add jiveapps #{info['git_url']}")
+          run("git branch --set-upstream master jiveapps/master")
+        end
       end
 
       def watch_dir_and_commit_changes
