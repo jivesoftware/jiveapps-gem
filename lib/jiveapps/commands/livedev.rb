@@ -89,6 +89,7 @@ module Jiveapps::Command
         display "    $ git branch -D #{livedev_branch_name}"
       else
         display "=== No changes exist in the LiveDev branch. Now running in standard dev mode."
+        run("git branch -d #{livedev_branch_name}") # deleting livedev branch since no changes exist
       end
     end
 
