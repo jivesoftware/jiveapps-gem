@@ -19,6 +19,7 @@ module Jiveapps::Command
 
         display "1/4: Checking out LiveDev branch #{livedev_branch_name}."
 
+        ask_to_recreate_branch_if_livedev_exists
         checkout_livedev_branch
 
         # sync remote livedev branch with local - force update to match local
@@ -101,6 +102,28 @@ module Jiveapps::Command
         `git branch --no-color 2> /dev/null | sed -e '/^[^*]/d'`.gsub(/\* /, '').strip
       end
 
+      def ask_to_recreate_branch_if_livedev_exists
+        if branch_exists?(livedev_branch_name)
+          display "LiveDev branch already exists! You can either:"
+
+          answer = ""
+          while answer != "1" && answer != "2"
+            display "1. Delete and recreate branch from master"
+            display "2. Continue using existing LiveDev branch"
+            display "Select 1 or 2: ", false
+            answer = gets.strip
+            display "#{answer} is not a valid choice!" if answer != "1" && answer != "2"
+          end
+
+          # if user answers "1", delete the livedev branch. it will get re-created when it is checked out
+          if answer == "1"
+            run("git checkout master")
+            run("git branch -D #{livedev_branch_name}")
+          end
+
+        end
+      end
+
       def checkout_livedev_branch
         # check if livedev branch exists...
         if Kernel.system("git show-ref --quiet --verify refs/heads/#{livedev_branch_name}")
@@ -116,6 +139,13 @@ module Jiveapps::Command
         if current_branch_name != livedev_branch_name
           checkout_livedev_branch
         end
+      end
+
+      def branch_exists?(branch)
+        branches = `git branch`
+        regex = Regexp.new('[\\n\\s\\*]+' + Regexp.escape(branch.to_s) + '\\n')
+        result = ((branches =~ regex) ? true : false)
+        return result
       end
 
       def watch_dir_and_commit_changes
