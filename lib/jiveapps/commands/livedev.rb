@@ -11,7 +11,7 @@ module Jiveapps::Command
 
         # Check if LiveDev is already running...
         if File.exist?(".git/livedev")
-          return unless confirm "LiveDev appears to already be running in another window.\nIf so, you should not run it twice, or strange things could happen.\nAre you sure you wish to continue? (y/n)?"
+          return unless confirm "LiveDev appears to already be running in another window.\nIf so, you should not run it twice, or strange things could happen.\nType \"y\" to continue anyway, or anything else to quit (recommended): (y/N)?"
         else
           # Create livedev run file so above check can happen
           # if command is run in two separate terminals
@@ -188,23 +188,21 @@ module Jiveapps::Command
         @dw.start
 
         while true do
-          # print "."
           begin
             input = gets.strip
             if ["exit", "quit", "\\q", ":q"].include?(input)
-              display_warning
+              prompt_to_quit_or_resume
             else
               display "Not a valid command. Hit CTRL-C or type \"exit\" to quit."
             end
-          rescue Interrupt # Catch CTRL-C and display warning.
-            display_warning
+          rescue Interrupt # catch CTRL-C
+            prompt_to_quit_or_resume
           end
         end
 
-        # gets # when the user hits "enter" the script will terminate
       end
 
-      def display_warning
+      def prompt_to_quit_or_resume
         puts ""
         puts "Would you like to quit LiveDev mode now? y/n? "
         begin
