@@ -190,7 +190,12 @@ module Jiveapps::Command
         while true do
           # print "."
           begin
-            gets
+            input = gets.strip
+            if ["exit", "quit", "\\q", ":q"].include?(input)
+              display_warning
+            else
+              display "Not a valid command. Hit CTRL-C or type \"exit\" to quit."
+            end
           rescue Interrupt # Catch CTRL-C and display warning.
             display_warning
           end
