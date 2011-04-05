@@ -112,9 +112,9 @@ module Jiveapps::Command
 
           answer = ""
           while answer != "1" && answer != "2"
-            display "1. Delete and recreate branch from master"
-            display "2. Continue using existing LiveDev branch"
-            display "Select 1 or 2: ", false
+            display "     1. Delete and recreate branch from master"
+            display "     2. Continue using existing LiveDev branch"
+            display "     Select 1 or 2: ", false
             answer = gets.strip
             display "#{answer} is not a valid choice!" if answer != "1" && answer != "2"
           end
