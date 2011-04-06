@@ -189,8 +189,6 @@ module Jiveapps::Command
 
         while true do
           begin
-            # for windows
-            trap("INT") { prompt_to_quit_or_resume }
             input = gets.strip
             if ["exit", "quit", "\\q", ":q"].include?(input)
               prompt_to_quit_or_resume
@@ -208,7 +206,6 @@ module Jiveapps::Command
         puts ""
         puts "Would you like to quit LiveDev mode now? y/n? "
         begin
-          trap("INT") {}
           answer = gets.strip
         rescue Interrupt
         end
