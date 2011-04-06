@@ -79,7 +79,7 @@ module Jiveapps
         puts "DEBUG: $ #{command}"
         `#{command}`
       elsif running_on_windows?
-        `#{command}` # TODO: figure out how to silence on Windows
+        `#{command} > NUL 2>&1`
       else
         `#{command} > /dev/null 2>&1` # silent
       end
