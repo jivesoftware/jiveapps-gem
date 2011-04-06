@@ -103,7 +103,7 @@ module Jiveapps::Command
       end
 
       def current_branch_name
-        `git branch --no-color 2> /dev/null | sed -e '/^[^*]/d'`.gsub(/\* /, '').strip
+        `git symbolic-ref HEAD`.strip.gsub(/refs\/heads\//, '')
       end
 
       def ask_to_recreate_branch_if_livedev_exists
