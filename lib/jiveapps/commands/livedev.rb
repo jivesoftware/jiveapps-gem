@@ -34,7 +34,7 @@ module Jiveapps::Command
         jiveapps.livedev(app, 'on')
 
         display "4/4: Watching directory for changes. Leave this process running"
-        display "     until you wish to quit LiveDev. Hit CTRL-C to quit."
+        display "     until you wish to quit LiveDev. Type \"exit\" to quit."
         display "     To view your app while in LiveDev mode, go to:"
         display "     #{info['sandbox_canvas_url']}"
         display "================================================================"
@@ -189,11 +189,13 @@ module Jiveapps::Command
 
         while true do
           begin
+            # for windows
+            trap("INT") { prompt_to_quit_or_resume }
             input = gets.strip
             if ["exit", "quit", "\\q", ":q"].include?(input)
               prompt_to_quit_or_resume
             else
-              display "Not a valid command. Hit CTRL-C or type \"exit\" to quit."
+              display "Not a valid command. Type \"exit\" followed by [Enter] to quit."
             end
           rescue Interrupt # catch CTRL-C
             prompt_to_quit_or_resume
@@ -206,6 +208,7 @@ module Jiveapps::Command
         puts ""
         puts "Would you like to quit LiveDev mode now? y/n? "
         begin
+          trap("INT") {}
           answer = gets.strip
         rescue Interrupt
         end
