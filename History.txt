@@ -1,3 +1,21 @@
+=== 1.0.0 2011-04-06
+* Major Enhancements
+  * LiveDev: Make a change, save a file, and hit refresh in your browser to see your latest changes on the Sandbox
+* Minor Enhancements
+  * Increased test coverage
+* Edge Case Coverage
+  * Check if LiveDev is already running when starting up. Display confirmation warning if so.
+  * Pull changes from remote master before doing merge of livedev branch
+  * Verify current git branch is set to livedev branch before every commit, if it is accidentally switched it in another window.
+  * Check if a merge conflict occurs and display conflict info and resolution instructions if so
+  * Make master branch track remote jiveapps master branch by default
+  * When starting LiveDev, if livedev/username branch already exists, ask user if they want to recreate it or use it as is
+  * Delete livedev branch when stopping livedev if no changes exist
+  * Check if remote "jiveapps" exists, if not, create it
+  * Big speed boost: batch all changes from each file notification event loop into one git commit and push. Adding and removing whole directories of files is much faster.
+  * Catch input typed during LiveDev and interpret "exit", "quit", "\q", and ":q" as commands to quit.
+  * Updated run method to properly silence command output on windows
+
 === 0.1.2 2011-03-17
 * Minor enhancements
   * Update absolute url paths in app generator to point to /apps/dev/... instead of /apps/... to match new dev paths
