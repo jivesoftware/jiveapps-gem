@@ -60,12 +60,11 @@
   -->
 
   <!-- To begin development, remove the hello view and uncomment the home and canvas views below -->
-  <Content view="home,canvas" href="hello.html">
-  </Content>
+  <Content type="html" view="home,canvas" href="hello.html" />
 
   <!--
-  <Content view="home" href="home.html" />
-  <Content view="canvas" href="canvas.html" />
+  <Content type="html" view="home" href="home.html" />
+  <Content type="html" view="canvas" href="canvas.html" />
   -->
 
 </Module>
