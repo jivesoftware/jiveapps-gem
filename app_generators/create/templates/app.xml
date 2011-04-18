@@ -38,26 +38,26 @@
     <link rel="event.removeapp" href="http://www.example.com/remove" />
     -->
 
-    <!-- User Preferences: http://code.google.com/apis/gadgets/docs/reference.html#Userprefs_Ref -->
-    <!--
-    <UserPref name="where_i_live" display_name="Where I Live" datatype="string" default_value="" required="false" />
-    <UserPref name="where_i_work" display_name="Where I Work" datatype="bool"   default_value="" required="false" />
-    <UserPref name="difficulty"
-         display_name="Difficulty"
-         datatype="enum"
-         default_value="2">
-      <EnumValue value="1" display_value="Easy"/>
-      <EnumValue value="2" display_value="Medium"/>
-      <EnumValue value="3" display_value="Hard"/>
-    </UserPref>
-    -->
-
     <!-- Preloaded Content: http://wiki.opensocial.org/index.php?title=Remote_Data_Requests_%28v0.9%29#Preloading_data -->
     <!--
     <Preload href="http://www.example.com" />
     -->
 
   </ModulePrefs>
+
+  <!-- User Preferences: http://code.google.com/apis/gadgets/docs/reference.html#Userprefs_Ref -->
+  <!--
+  <UserPref name="where_i_live" display_name="Where I Live" datatype="string" default_value="" required="false" />
+  <UserPref name="where_i_work" display_name="Where I Work" datatype="bool"   default_value="" required="false" />
+  <UserPref name="difficulty"
+       display_name="Difficulty"
+       datatype="enum"
+       default_value="2">
+    <EnumValue value="1" display_value="Easy"/>
+    <EnumValue value="2" display_value="Medium"/>
+    <EnumValue value="3" display_value="Hard"/>
+  </UserPref>
+  -->
 
   <!-- To begin development, remove the hello view and uncomment the home and canvas views below -->
   <Content view="home,canvas" href="hello.html">
