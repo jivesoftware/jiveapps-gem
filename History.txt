@@ -1,3 +1,9 @@
+=== 1.0.1 2011-04-18
+* Minor Enhancement
+  * app template - add type="html" to <Content> elements
+* Bug Fix
+  * app template - move example UserPrefs outside of ModulePrefs in gadget xml
+
 === 1.0.0 2011-04-06
 * Major Enhancements
   * LiveDev: Make a change, save a file, and hit refresh in your browser to see your latest changes on the Sandbox
