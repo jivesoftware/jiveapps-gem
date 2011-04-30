@@ -1,3 +1,7 @@
+=== 1.0.2 2011-04-29
+* Minor Enhancement
+  * update app template with new syntax for screenhots in <Link> tags. remove 'screenshot' and 'thumbnail' attributes from <ModulePrefs>
+
 === 1.0.1 2011-04-18
 * Minor Enhancement
   * app template - add type="html" to <Content> elements
