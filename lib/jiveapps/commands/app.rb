@@ -111,7 +111,13 @@ module Jiveapps::Command
         run('git commit -m "initial commit"')
         run("git remote add jiveapps #{current_app['git_url']}")
         run("git push jiveapps master")
-        run("git branch --set-upstream master jiveapps/master")
+
+        # configure master branch to track to remote branch.
+        # was using "git branch --set-upstream master jiveapps/master"
+        # but it is only supported in git 1.7 and higher
+        run("git config branch.master.remote jiveapps")
+        run("git config branch.master.merge refs/heads/master")
+        run("git config push.default tracking")
       end
 
       if $? == 0

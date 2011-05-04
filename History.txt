@@ -1,3 +1,7 @@
+=== 1.0.3
+* Bug fix
+  * fix issue where new app is deleted if using older version of Git (<1.7) that doesn't support "git branch --set-upstream"
+
 === 1.0.2 2011-04-29
 * Minor Enhancement
   * update app template with new syntax for screenhots in <Link> tags. remove 'screenshot' and 'thumbnail' attributes from <ModulePrefs>
