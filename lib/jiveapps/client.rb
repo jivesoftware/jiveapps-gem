@@ -104,7 +104,7 @@ class Jiveapps::Client
   ### OAuth Services
 
   def list_oauth_services(app_name)
-    services = get("/apps/#{app_name}/oauth_services")
+    services = get("/apps/#{escape(app_name)}/oauth_services")
 
     if services.class == Array
       services.map { |item| item['oauth_service'] }
@@ -114,18 +114,18 @@ class Jiveapps::Client
   end
 
   def add_oauth_service(app_name, name, key, secret)
-    post("/apps/#{app_name}/oauth_services", {:oauth_service => {:name => name, :key => key, :secret => secret}})
+    post("/apps/#{escape(app_name)}/oauth_services", {:oauth_service => {:name => name, :key => key, :secret => secret}})
   end
 
   def remove_oauth_service(app_name, name)
-    delete("/apps/#{app_name}/oauth_services/#{name}")
+    delete("/apps/#{escape(app_name)}/oauth_services/#{escape(name)}")
   end
 
   ### Collaborators
 
   # Get a list of collaborators on the app, returns an array of hashes each with :email
   def list_collaborators(app_name)
-    collaborators = get("/apps/#{app_name}/collaborators")
+    collaborators = get("/apps/#{escape(app_name)}/collaborators")
 
     if collaborators.class == Array
       collaborators.map { |item| {:username => item['collaborator']['user']['username']} }
@@ -136,12 +136,12 @@ class Jiveapps::Client
 
   # Invite a person by username to collaborate on the app.
   def add_collaborator(app_name, username)
-    post("/apps/#{app_name}/collaborators", {:collaborator => {:username => username}})
+    post("/apps/#{escape(app_name)}/collaborators", {:collaborator => {:username => username}})
   end
 
   # Remove a collaborator.
   def remove_collaborator(app_name, username)
-    delete("/apps/#{app_name}/collaborators/#{escape(username)}").to_s
+    delete("/apps/#{escape(app_name)}/collaborators/#{escape(username)}").to_s
   end
 
   ### General
