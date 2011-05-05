@@ -1,6 +1,10 @@
 === 1.0.3
 * Bug fix
   * fix issue where new app is deleted if using older version of Git (<1.7) that doesn't support "git branch --set-upstream"
+  * fix invalid reference to "images/j-icon-jaf-48.png", changed to "images/icon48.png"
+  * remove hack to double escape URL parameters in production to work around old nginx/passenger bug
+  * escape remaining url parameters that were not yet being escaped
+  * removed RCov.pattern= since it no longer has any functionality
 
 === 1.0.2 2011-04-29
 * Minor Enhancement
