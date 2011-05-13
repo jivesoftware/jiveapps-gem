@@ -21,11 +21,11 @@
 
     <!-- Screenshots: 600w x 400h, should include at least 1 and up to 5 -->
     <!--
-    <Link rel="Screenshot" href="<%= Jiveapps::WEBHOST %>/apps/dev/<%= name %>/images/screenshot1.png" />
-    <Link rel="Screenshot" href="<%= Jiveapps::WEBHOST %>/apps/dev/<%= name %>/images/screenshot2.png" />
-    <Link rel="Screenshot" href="<%= Jiveapps::WEBHOST %>/apps/dev/<%= name %>/images/screenshot3.png" />
-    <Link rel="Screenshot" href="<%= Jiveapps::WEBHOST %>/apps/dev/<%= name %>/images/screenshot4.png" />
-    <Link rel="Screenshot" href="<%= Jiveapps::WEBHOST %>/apps/dev/<%= name %>/images/screenshot5.png" />
+    <Link rel="Screenshot1" href="<%= Jiveapps::WEBHOST %>/apps/dev/<%= name %>/images/screenshot1.png" />
+    <Link rel="Screenshot2" href="<%= Jiveapps::WEBHOST %>/apps/dev/<%= name %>/images/screenshot2.png" />
+    <Link rel="Screenshot3" href="<%= Jiveapps::WEBHOST %>/apps/dev/<%= name %>/images/screenshot3.png" />
+    <Link rel="Screenshot4" href="<%= Jiveapps::WEBHOST %>/apps/dev/<%= name %>/images/screenshot4.png" />
+    <Link rel="Screenshot5" href="<%= Jiveapps::WEBHOST %>/apps/dev/<%= name %>/images/screenshot5.png" />
     -->
 
     <!-- OAuth Services: https://developers.jivesoftware.com/community/docs/DOC-1161 -->
