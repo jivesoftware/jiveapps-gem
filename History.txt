@@ -1,4 +1,7 @@
 === 1.0.3
+* Minor Enhancements
+  * change icon and screenshot hrefs to be relative urls
+  * change screenshot rel attributes to be numbered 1-5
 * Bug fix
   * fix issue where new app is deleted if using older version of Git (<1.7) that doesn't support "git branch --set-upstream"
   * fix invalid reference to "images/j-icon-jaf-48.png", changed to "images/icon48.png"
