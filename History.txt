@@ -1,5 +1,5 @@
 === 1.0.3
-* Minor Enhancements
+* Enhancements
   * change icon and screenshot hrefs to be relative urls
   * change screenshot rel attributes to be numbered 1-5
 * Bug fix
