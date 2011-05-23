@@ -1,5 +1,6 @@
 pkg/*
 *.gem
+*.tmproj
 .bundle
 Gemfile.lock
 coverage/*
