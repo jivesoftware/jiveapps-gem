@@ -64,6 +64,7 @@ module Jiveapps::Command
       create_remote_app
       generate_app
       create_local_git_repo_and_push_to_remote
+      check_app_push
       register_app
       create_notify_user
     end
@@ -124,11 +125,15 @@ module Jiveapps::Command
         display "SUCCESS"
       else
         display "FAILURE"
-        display "Git Push failed. Deleting app and cleaning up. Check SSH key and try again:\n\n" +
-                "$ jiveapps keys:list\n" +
-                "$ jiveapps keys:remove <user@machine>\n" +
-                "$ jiveapps keys:add\n" +
-                "$ jiveapps create #{@appname}"
+        display_git_push_fail_info
+        delete_app
+      end
+    end
+
+    def check_app_push
+      response_code = get_response_code(current_app['app_url'])
+      if response_code != 200
+        display_git_push_fail_info
         delete_app
       end
     end
@@ -172,15 +177,35 @@ module Jiveapps::Command
       end
     end
 
+    def display_git_push_fail_info
+      display "Git Push failed. Deleting app and cleaning up. Check SSH key and try again:\n\n" +
+              "$ jiveapps keys:list\n" +
+              "$ jiveapps keys:remove <user@machine>\n" +
+              "$ jiveapps keys:add\n" +
+              "$ jiveapps create #{@appname}"
+    end
+
     def handle_response_errors
       if @current_app.class == Hash && @current_app["errors"]
         display "FAILURE"
         @current_app["errors"].each do |key, value|
-          display "Error on \"#{key}\": #{value}"
+          if key == 'base'
+            display "Error: #{value}"
+          else
+            display "Error on \"#{key}\": #{value}"
+          end
         end
         @current_app = nil
       else
         display "SUCCESS"
+      end
+    end
+
+    def get_response_code(url)
+      begin
+        RestClient.get(url).code
+      rescue => e
+        e.respond_to?(:response) ? e.response.code : -1
       end
     end
 
