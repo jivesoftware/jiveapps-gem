@@ -1,4 +1,9 @@
-=== 1.0.3
+=== 1.0.4
+* Enhancements
+  * after app has been pushed to git remote, check for existance of web copy. if it does not exist, halt and delete app
+  * validate SSH key format before uploading. halt if its invalid, show user why and how to fix it
+
+=== 1.0.3 2011-05-20
 * Enhancements
   * change icon and screenshot hrefs to be relative urls
   * change screenshot rel attributes to be numbered 1-5
