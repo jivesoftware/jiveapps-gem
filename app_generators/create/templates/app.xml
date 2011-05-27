@@ -10,6 +10,7 @@
     <!-- Commonly used features -->
     <Require feature="dynamic-height" />
     <Require feature="jive-core-v2" />
+    <Require feature="jquery-1.6" />
     <Require feature="osapi"/>
     <Require feature="settitle"/>
     <Require feature="views" />
@@ -55,7 +56,7 @@
   <!-- User Preferences: http://code.google.com/apis/gadgets/docs/reference.html#Userprefs_Ref -->
   <!--
   <UserPref name="where_i_live" display_name="Where I Live" datatype="string" default_value="" required="false" />
-  <UserPref name="where_i_work" display_name="Where I Work" datatype="bool"   default_value="" required="false" />
+  <UserPref name="subscribe_to_newsletter" display_name="Subscribe to Newsletter" datatype="bool"   default_value="" required="false" />
   <UserPref name="difficulty"
        display_name="Difficulty"
        datatype="enum"
