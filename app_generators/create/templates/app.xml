@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Module specificationVersion="1">
-  <ModulePrefs title="<%= name %>"
-               description="TODO: Replace with real description of <%= name %> inside app.xml: Module/ModulePrefs/description"
-               author="<%= author_name = `git config --global user.name`.to_s.strip; author_name.length > 0 ? author_name : 'TODO: Author Name' %>"
-               author_affiliation="Company Name"
-               author_email="<%= author_email = `git config --global user.email`.to_s.strip; author_email.length > 0 ? author_email : 'TODO: Author Email' %>"
+  <ModulePrefs title="<%= title %>"
+               description="<%= description %>"
+               author="<%= author_name %>"
+               author_affiliation="<%= author_affiliation %>"
+               author_email="<%= author_email %>"
                height="300">
 
     <!-- Commonly used features -->

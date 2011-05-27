@@ -122,5 +122,39 @@ module Jiveapps
       end
     end
 
+    # Checks for existance of a git property. If it exists, return it.
+    # If it doesn't, prompt for it, set it, and return it.
+    #
+    # Example:
+    #   get_or_set_git_prop("--global user.name", "Author Name")
+    #
+    def get_or_set_git_prop(prop, title)
+      val = `git config #{prop}`.to_s.strip
+      while val.blank?
+        display "Enter #{title}: ", false
+        val = gets.strip
+        if val.blank?
+          display "#{title} cannot be blank."
+        else
+          `git config #{prop} "#{val}"`
+        end
+      end
+      val
+    end
+
+    # Prompt for an app property. If user enters a value, return it, otherwise return the default
+    #
+    # Example:
+    #   get_app_prop_with_default("App Name", "foobarbaz")
+    #
+    # Example Output:
+    #   Enter App Name or hit enter for default [foobarbaz]:
+    #
+    def get_app_prop_with_default(title, default="")
+      display "Enter #{title} or hit enter for default [#{default}]: ", false
+      val = gets.strip
+      val.blank? ? default : val
+    end
+
   end
 end

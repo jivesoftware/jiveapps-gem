@@ -1,11 +1,19 @@
 class CreateGenerator < RubiGen::Base
 
+  include Jiveapps::Helpers
+
   DEFAULT_SHEBANG = File.join(Config::CONFIG['bindir'],
                               Config::CONFIG['ruby_install_name'])
 
   default_options :author => nil
 
   attr_reader :name
+
+  attr_reader :title,
+              :description,
+              :author_name,
+              :author_affiliation,
+              :author_email
 
   def initialize(runtime_args, runtime_options = {})
     super
@@ -67,6 +75,12 @@ EOS
       # Templates can access these value via the attr_reader-generated methods, but not the
       # raw instance variable value.
       # @author = options[:author]
+
+      @title              = get_app_prop_with_default('App Title',           name)
+      @description        = get_app_prop_with_default('App Description',     'Description of ' + name)
+      @author_name        = get_or_set_git_prop('--global user.name',        'Author Name')
+      @author_affiliation = get_or_set_git_prop('--global user.affiliation', 'Author Affiliation / Company Name')
+      @author_email       = get_or_set_git_prop('--global user.email',       'Author Email')
     end
 
     # Installation skeleton.  Intermediate directories are automatically
