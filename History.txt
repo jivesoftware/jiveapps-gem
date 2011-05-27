@@ -1,7 +1,12 @@
 === 1.0.4
 * Enhancements
-  * after app has been pushed to git remote, check for existance of web copy. if it does not exist, halt and delete app
+  * after app has been pushed to git remote, check for existence of web copy. if it does not exist, halt and delete app
   * validate SSH key format before uploading. halt if its invalid, show user why and how to fix it
+  * Set git user name and email properties if not set
+  * Add git affiliation property for company name
+  * Prompt for app title and description
+  * Include jquery-1.6 feature in app template features
+  * Change boolean user preference example to something that makes sense - subscribe_to_newsletter
 
 === 1.0.3 2011-05-20
 * Enhancements
@@ -16,7 +21,7 @@
 
 === 1.0.2 2011-04-29
 * Minor Enhancement
-  * update app template with new syntax for screenhots in <Link> tags. remove 'screenshot' and 'thumbnail' attributes from <ModulePrefs>
+  * update app template with new syntax for screenshots in <Link> tags. remove 'screenshot' and 'thumbnail' attributes from <ModulePrefs>
 
 === 1.0.1 2011-04-18
 * Minor Enhancement
