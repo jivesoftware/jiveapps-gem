@@ -59,7 +59,7 @@ module Jiveapps::Command
       debug "Running in debug mode."
       app_list = Jiveapps::Command.run_internal('auth:check', []) # check auth credentials and ssh key before generating app
       return unless app_list.class == Array
-      Jiveapps::Command.run_internal('keys:add', [])
+      Jiveapps::Command.run_internal('keys:add', ["--silent"])
       display "=== Creating new Jive App \"#{@appname}\"..."
       create_remote_app
       generate_app

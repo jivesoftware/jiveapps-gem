@@ -19,10 +19,11 @@ module Jiveapps::Command
     # Uploads an SSH Key
     # - args.first can either be a path to a key file or be nil. if nil, looks in default paths
     def add
+      silent = extract_option("--silent").present?
       keyfile = find_key(args.first)
       key = File.read(keyfile)
 
-      display "Uploading ssh public key #{keyfile}"
+      display "Uploading ssh public key #{keyfile}" unless silent
       jiveapps.add_key(key)
     end
 
