@@ -57,6 +57,7 @@ module Jiveapps::Command
       catch_args :appname
 
       debug "Running in debug mode."
+      check_git_version
       app_list = Jiveapps::Command.run_internal('auth:check', []) # check auth credentials and ssh key before generating app
       return unless app_list.class == Array
       Jiveapps::Command.run_internal('keys:add', ["--silent"])

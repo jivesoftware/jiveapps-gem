@@ -7,6 +7,8 @@
   * Prompt for app title and description
   * Include jquery-1.6 feature in app template features
   * Change boolean user preference example to something that makes sense - subscribe_to_newsletter
+  * Check that git exists before creating an app
+  * Check that git version is 1.7 or higher
 
 === 1.0.3 2011-05-20
 * Enhancements

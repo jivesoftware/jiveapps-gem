@@ -102,6 +102,31 @@ module Jiveapps
       end
     end
 
+    def has_program?(program)
+      ENV['PATH'].split(File::PATH_SEPARATOR).any? do |directory|
+        path = File.join(directory, program.to_s)
+        if running_on_windows?
+          File.exists?("#{path}.cmd") || File.exists?("#{path}.exe")
+        else
+          File.executable?(path)
+        end
+      end
+    end
+
+    def user_git_version
+      return @git_version if @git_version
+      error("Git not found. Please install Git 1.7 or higher. http://git-scm.com/download") unless has_program?("git")
+      version_string = `git --version`.split(/\s+/).last
+      @git_version = Gem::Version.new(version_string)
+    end
+
+    def check_git_version
+      minimum_git_version = Gem::Version.new("1.7")
+      if user_git_version < minimum_git_version
+        error("Running Git version #{user_git_version}. Please install Git #{minimum_git_version} or higher. http://git-scm.com/download")
+      end
+    end
+
     # Display Oauth Service list
     # Example Output:
     # === 2 OAuth services for app-name
