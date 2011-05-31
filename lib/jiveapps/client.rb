@@ -207,6 +207,16 @@ class Jiveapps::Client
   end
 
   def escape(value) # :nodoc:
+    ### Ugly hack - nginx/passenger unescapes the name before it gets
+    ### to rails, causing routes to fail. double encode in production
+    if Jiveapps::MODE == 'production'
+      _escape(_escape(value))
+    else
+      _escape(value)
+    end
+  end
+
+  def _escape(value)  # :nodoc:
     escaped = URI.escape(value.to_s, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))
     escaped.gsub('.', '%2E') # not covered by the previous URI.escape
   end
