@@ -1,3 +1,3 @@
 module Jiveapps
-  VERSION = '1.0.4.alpha'
+  VERSION = '1.0.4'
 end

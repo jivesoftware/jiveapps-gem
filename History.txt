@@ -9,12 +9,14 @@
   * Change boolean user preference example to something that makes sense - subscribe_to_newsletter
   * Check that git exists before creating an app
   * Check that git version is 1.7 or higher
+* Bug Fixes
+  * Re-add hack to double escape URL parameters in production to work around nginx/passenger bug. it was behaving correctly but seems to have regressed upstream somewhere in Passenger/Nginx/Rack
 
 === 1.0.3 2011-05-20
 * Enhancements
   * change icon and screenshot hrefs to be relative urls
   * change screenshot rel attributes to be numbered 1-5
-* Bug fix
+* Bug Fixes
   * fix issue where new app is deleted if using older version of Git (<1.7) that doesn't support "git branch --set-upstream"
   * fix invalid reference to "images/j-icon-jaf-48.png", changed to "images/icon48.png"
   * remove hack to double escape URL parameters in production to work around old nginx/passenger bug
@@ -28,7 +30,7 @@
 === 1.0.1 2011-04-18
 * Minor Enhancement
   * app template - add type="html" to <Content> elements
-* Bug Fix
+* Bug Fixes
   * app template - move example UserPrefs outside of ModulePrefs in gadget xml
 
 === 1.0.0 2011-04-06
