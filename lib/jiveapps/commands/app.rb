@@ -86,14 +86,14 @@ module Jiveapps::Command
     private
 
     def create_remote_app
-      display "Step 1 of 4. Check availability and create remote repository: ", false
+      display "Step 1 of 4. Checking availability and creating remote repository... ", false
       @current_app = jiveapps.create(@appname)
       handle_response_errors
     end
 
     def generate_app
       return unless current_app
-      display "Step 2 of 4. Generate app scaffolding."
+      display "Step 2 of 4. Generating app scaffolding..."
 
       require 'rubygems'
       require 'rubigen'
@@ -104,7 +104,7 @@ module Jiveapps::Command
 
     def create_local_git_repo_and_push_to_remote
       return unless current_app
-      display "Step 3 of 4. Creating local Git repository and push to remote: ", false
+      display "Step 3 of 4. Creating local Git repository and pushing to remote... ", false
 
       Dir.chdir(File.join(Dir.pwd, @appname)) do
 
@@ -141,7 +141,7 @@ module Jiveapps::Command
 
     def register_app
       return unless current_app
-      display "Step 4 of 4. Registering app on the Jive Apps Dev Center and installing on sandbox: ", false
+      display "Step 4 of 4. Registering app on the Jive Apps Dev Center and installing on sandbox... ", false
 
       @current_app = jiveapps.register(@appname)
       handle_response_errors

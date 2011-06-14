@@ -176,7 +176,7 @@ module Jiveapps
     #   Enter App Name or hit enter for default [foobarbaz]:
     #
     def get_app_prop_with_default(title, default="")
-      display "Enter #{title} or hit enter for default [#{default}]: ", false
+      display "  Enter #{title} or hit enter for default [#{default}]: ", false
       val = gets.strip
       val.blank? ? default : val
     end
