@@ -47,7 +47,7 @@ module Jiveapps::Command
           display "=== #{@appname} folder already exists."
         else
           display "=== Cloning #{@appname}..."
-          run("git clone #{app['git_url']} --origin jiveapps")
+          run("git clone #{app['git_url']} --origin jiveapps", :exec => true)
         end
       end
     end
