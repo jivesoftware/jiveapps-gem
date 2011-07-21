@@ -1,4 +1,5 @@
 require 'jiveapps/helpers'
+require 'jiveapps/shell'
 require 'jiveapps/commands/base'
 
 Dir["#{File.dirname(__FILE__)}/commands/*.rb"].each { |c| require c }

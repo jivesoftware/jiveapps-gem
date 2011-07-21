@@ -74,15 +74,20 @@ module Jiveapps
       raise Jiveapps::Command::CommandFailed, "Missing #{list.length} parameter#{list.length > 1 ? 's' : ''}: #{list.map{|l| '<' + l.to_s + '>'}.join(' ')}#{@usage}" if list.length > 0
     end
 
-    def run(command)
-      if debug_mode?
-        puts "DEBUG: $ #{command}"
-        `#{command}`
-      elsif running_on_windows?
-        `#{command} > NUL 2>&1`
+    def run(command, options={})
+      options[:exec] ||= false
+
+      puts "DEBUG: $ #{command}" if debug_mode?
+
+      if options[:exec] == true
+        exec command
       else
-        `#{command} > /dev/null 2>&1` # silent
+        sh(*command)
       end
+    end
+
+    def sh(*command)
+      Shell.new(*command).run
     end
 
     def debug_mode?

@@ -106,32 +106,30 @@ module Jiveapps::Command
       return unless current_app
       display "Step 3 of 4. Creating local Git repository and pushing to remote... ", false
 
+      result = nil
       Dir.chdir(File.join(Dir.pwd, @appname)) do
-
-        run("git init")
-        run("git add .")
-        run('git commit -m "initial commit"')
-        run("git remote add jiveapps #{current_app['git_url']}")
-        run("git push jiveapps master")
-
-        # configure master branch to track to remote branch.
-        # was using "git branch --set-upstream master jiveapps/master"
-        # but it is only supported in git 1.7 and higher
-        run("git config branch.master.remote jiveapps")
-        run("git config branch.master.merge refs/heads/master")
-        run("git config push.default tracking")
+        result = run("git init")
+        result = run("git add .")                                         unless result.error?
+        result = run("git commit -m \"initial commit\"")                  unless result.error?
+        result = run("git remote add jiveapps #{current_app['git_url']}") unless result.error?
+        result = run("git push jiveapps master")                          unless result.error?
       end
 
-      if $? == 0
-        display "SUCCESS"
-      else
+      if result.error?
         display "FAILURE"
+        display result.error
         display_git_push_fail_info
         delete_app
+      else
+        display "SUCCESS"
+        Dir.chdir(File.join(Dir.pwd, @appname)) do
+          run("git branch --set-upstream master jiveapps/master")
+        end
       end
     end
 
     def check_app_push
+      return unless current_app
       response_code = get_response_code(current_app['app_url'])
       if response_code != 200
         display_git_push_fail_info

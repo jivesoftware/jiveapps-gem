@@ -39,6 +39,7 @@ Other features:
   s.add_dependency 'directory_watcher', '1.3.2'
   s.add_dependency 'rest-client',       '1.6.1'
   s.add_dependency 'rubigen',           '1.5.5'
+  s.add_dependency 'systemu',           '2.2.0'
 
   s.add_development_dependency 'rspec',   '>= 2.2.0'
   s.add_development_dependency 'rcov',    '>= 0.9.9'
