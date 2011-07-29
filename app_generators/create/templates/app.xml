@@ -4,8 +4,7 @@
                description="<%= description %>"
                author="<%= author_name %>"
                author_affiliation="<%= author_affiliation %>"
-               author_email="<%= author_email %>"
-               height="300">
+               author_email="<%= author_email %>">
 
     <!-- Commonly used features -->
     <Require feature="dynamic-height" />
@@ -56,7 +55,7 @@
   <!-- User Preferences: http://code.google.com/apis/gadgets/docs/reference.html#Userprefs_Ref -->
   <!--
   <UserPref name="where_i_live" display_name="Where I Live" datatype="string" default_value="" required="false" />
-  <UserPref name="subscribe_to_newsletter" display_name="Subscribe to Newsletter" datatype="bool"   default_value="" required="false" />
+  <UserPref name="subscribe_to_newsletter" display_name="Subscribe to Newsletter" datatype="bool" default_value="" required="false" />
   <UserPref name="difficulty"
        display_name="Difficulty"
        datatype="enum"
@@ -68,10 +67,10 @@
   -->
 
   <!-- To begin development, remove the hello view and uncomment the home and canvas views below -->
-  <Content type="html" view="home,canvas" href="hello.html" />
+  <Content type="html" view="home,canvas" href="hello.html" preferred_height="400" />
 
   <!--
-  <Content type="html" view="home" href="home.html" />
+  <Content type="html" view="home" href="home.html" preferred_height="400" />
   <Content type="html" view="canvas" href="canvas.html" />
   -->
 
