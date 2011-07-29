@@ -82,12 +82,12 @@ module Jiveapps
       if options[:exec] == true
         exec command
       else
-        sh(*command)
+        sh(command)
       end
     end
 
-    def sh(*command)
-      Shell.new(*command).run
+    def sh(command)
+      Shell.new(command).run
     end
 
     def debug_mode?

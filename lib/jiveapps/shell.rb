@@ -8,14 +8,18 @@ class Shell < String
   attr_reader :out
   attr_reader :exit_status
 
-  def initialize(*command)
+  def initialize(command)
     @command = command
   end
 
   def run
     out = err = nil
 
-    status, out, err = systemu(*@command)
+    begin
+      status, out, err = systemu(@command)
+    rescue => e
+      puts e.inspect
+    end
 
     @exit_status = status.exitstatus
 

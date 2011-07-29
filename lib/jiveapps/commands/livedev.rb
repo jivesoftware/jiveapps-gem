@@ -167,10 +167,10 @@ module Jiveapps::Command
       def watch_dir_and_commit_changes
         @dw = DirectoryWatcher.new '.', :glob => '**/*', :pre_load => true
         @dw.interval = 1
-        @dw.add_observer do |*args| 
+        @dw.add_observer do |*args|
           verify_livedev_branch
 
-          changes = ""
+          changes = []
           args.each do |event|
             if event.type == :added || event.type == :modified
               run("git add #{event.path}")
@@ -178,10 +178,10 @@ module Jiveapps::Command
               run("git rm #{event.path}")
             end
             display "  - [#{Time.now.strftime("%Y-%m-%d %T")}] LiveDev: #{event.type} #{event.path}"
-            changes << "  #{event.type} '#{event.path}'\n"
+            changes << "#{event.type} '#{event.path}'"
           end
 
-          run("git commit -m \"LiveDev Changes\n#{changes}\"")
+          run("git commit -m \"LiveDev Changes: #{changes.join(', ')}\"")
           run("git push -f jiveapps #{livedev_branch_name}")
         end
 
