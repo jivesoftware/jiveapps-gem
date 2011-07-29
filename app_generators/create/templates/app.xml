@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Module specificationVersion="1">
-  <ModulePrefs title="<%= title %>"
-               description="<%= description %>"
-               author="<%= author_name %>"
-               author_affiliation="<%= author_affiliation %>"
-               author_email="<%= author_email %>">
+  <ModulePrefs title="<%= h title %>"
+               description="<%= h description %>"
+               author="<%= h author_name %>"
+               author_affiliation="<%= h author_affiliation %>"
+               author_email="<%= h author_email %>">
 
     <!-- Commonly used features -->
     <Require feature="dynamic-height" />

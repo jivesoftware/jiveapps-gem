@@ -1,3 +1,4 @@
+require 'cgi'
 class CreateGenerator < RubiGen::Base
 
   include Jiveapps::Helpers
@@ -48,6 +49,11 @@ class CreateGenerator < RubiGen::Base
       # m.dependency "install_rubigen_scripts", [destination_root, 'create'],
       #   :shebang => options[:shebang], :collision => :force
     end
+  end
+
+  # Escape HTML entities
+  def h(str)
+    CGI.escapeHTML(str)
   end
 
   protected
