@@ -3,7 +3,7 @@
   * Update app template to use preferred height of 400 px on home view
   * Don't run gadgets.window.adjustHeight onload by default, so 400 px height persists
   * Escape HTML entities in ModulePref attributes to prevent invalid XML
-  * Detect if errors occur during git commits, and display if so
+  * Detect if git errors occur during app creation or livedev, and display if so
 * Bug Fixes:
   * Fix example link tags for lifecycle events to have capital L
 

@@ -47,9 +47,7 @@ module Jiveapps::Command
       display "\n\n\n=== Stopping LiveDev: #{app}"
 
       # remove livedev run file if it exists
-      if File.exist?(".git/livedev")
-        File.delete(".git/livedev")
-      end
+      remove_livedev_run_file
 
       # switch server to run in normal mode
       display "1/3: Switching the Jive App Sandbox to point to master branch."
@@ -97,6 +95,15 @@ module Jiveapps::Command
     end
 
     private
+      def run(cmd)
+        result = super(cmd)
+        if result.error?
+          display "FAILURE"
+          display result.error
+          remove_livedev_run_file
+          exit 1
+        end
+      end
 
       def livedev_branch_name
         "livedev/#{jiveapps.user}"
@@ -216,6 +223,12 @@ module Jiveapps::Command
         else
           display "Resuming..."
           return
+        end
+      end
+
+      def remove_livedev_run_file
+        if File.exist?(".git/livedev")
+          File.delete(".git/livedev")
         end
       end
 
