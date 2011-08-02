@@ -95,6 +95,10 @@ module Jiveapps::Command
     end
 
     private
+
+      # This calls the normal Jiveapps::Helper run() method,
+      # detects if there is an error, and if there is, removes
+      # the livedev run/lock file and quits with an error.
       def run(cmd)
         result = super(cmd)
         if result.error?
@@ -102,6 +106,20 @@ module Jiveapps::Command
           display result.error
           remove_livedev_run_file
           exit 1
+        end
+      end
+
+      # Because STDIN.gets() blocks on Windows with the systemu library
+      # We use this inside the livedev listener loop instead of the normal
+      # run() which calls systemu(). Less error handling is possible.
+      def nonblock_run(command)
+        if debug_mode?
+          puts "DEBUG: $ #{command}"
+          `#{command}`
+        elsif running_on_windows?
+          `#{command} > NUL 2>&1`
+        else
+          `#{command} > /dev/null 2>&1` # silent
         end
       end
 
@@ -180,16 +198,16 @@ module Jiveapps::Command
           changes = []
           args.each do |event|
             if event.type == :added || event.type == :modified
-              run("git add #{event.path}")
+              nonblock_run("git add #{event.path}")
             elsif event.type == :removed
-              run("git rm #{event.path}")
+              nonblock_run("git rm #{event.path}")
             end
             display "  - [#{Time.now.strftime("%Y-%m-%d %T")}] LiveDev: #{event.type} #{event.path}"
             changes << "#{event.type} '#{event.path}'"
           end
 
-          run("git commit -m \"LiveDev Changes: #{changes.join(', ')}\"")
-          run("git push -f jiveapps #{livedev_branch_name}")
+          nonblock_run("git commit -m \"LiveDev Changes: #{changes.join(', ')}\"")
+          nonblock_run("git push -f jiveapps #{livedev_branch_name}")
         end
 
         @dw.start
