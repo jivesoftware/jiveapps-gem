@@ -84,6 +84,22 @@ module Jiveapps::Command
       end
     end
 
+    def delete
+      name = (args.first && !args.first =~ /^\-\-/) ? args.first : extract_app
+      app = jiveapps.info(name)
+      if app == nil
+        display "App not found."
+      else
+        display "Are you sure you want to delete the app \"#{name}\" [y/N]? ", false
+        answer = gets.strip
+        if answer == 'y'
+          display "=== Deleting \"#{name}\": ", false
+          @current_app = jiveapps.delete_app(name)
+          handle_response_errors
+        end
+      end
+    end
+
     private
 
     def create_remote_app
@@ -120,7 +136,7 @@ module Jiveapps::Command
         display "FAILURE"
         display result.error
         display_git_push_fail_info
-        delete_app
+        delete_app_and_dir
       else
         display "SUCCESS"
         Dir.chdir(File.join(Dir.pwd, @appname)) do
@@ -134,7 +150,7 @@ module Jiveapps::Command
       response_code = get_response_code(current_app['app_url'])
       if response_code != 200
         display_git_push_fail_info
-        delete_app
+        delete_app_and_dir
       end
     end
 
@@ -146,7 +162,7 @@ module Jiveapps::Command
       handle_response_errors
     end
 
-    def delete_app
+    def delete_app_and_dir
       run("rm -rf #{@appname}")
       jiveapps.delete_app(@appname)
       @current_app = nil # halt further actions

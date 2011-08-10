@@ -173,7 +173,7 @@ class Jiveapps::Client
   def process(method, uri, extra_headers={}, payload=nil)
     headers  = jiveapps_headers.merge(extra_headers)
     args     = [method, payload, headers].compact
-    
+
     begin
       response = resource(uri).send(*args)
       extract_warning(response)
