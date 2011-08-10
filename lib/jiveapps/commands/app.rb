@@ -206,10 +206,11 @@ module Jiveapps::Command
         display "FAILURE"
         @current_app["errors"].each do |key, value|
           if key == 'base'
-            display "Error: #{value}"
+            display "Error: ", false
           else
-            display "Error on \"#{key}\": #{value}"
+            display "Error on \"#{key}\": ", false
           end
+          display value.to_yaml.gsub(/^--- /, '') # to_yaml easily displays an array as a multiline list. gsub() to get rid of first "---" that to_yaml puts out.
         end
         @current_app = nil
       else
