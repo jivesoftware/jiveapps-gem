@@ -58,6 +58,7 @@ module Jiveapps::Command
 
       debug "Running in debug mode."
       check_git_version
+      check_if_dir_already_exists
       app_list = Jiveapps::Command.run_internal('auth:check', []) # check auth credentials and ssh key before generating app
       return unless app_list.class == Array
       Jiveapps::Command.run_internal('keys:add', ["--silent"])
@@ -205,6 +206,12 @@ module Jiveapps::Command
         RestClient.get(url).code
       rescue => e
         e.respond_to?(:response) ? e.response.code : -1
+      end
+    end
+
+    def check_if_dir_already_exists
+      if File.directory?(@appname)
+        error("A directory named \"#{@appname}\" already exists. Please delete or move directory and try again.")
       end
     end
 

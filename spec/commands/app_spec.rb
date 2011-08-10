@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'fileutils'
 
 module Jiveapps::Command
   describe App do
@@ -57,6 +58,24 @@ module Jiveapps::Command
         @cli.info
       end
 
+    end
+
+    describe "check_if_dir_already_exists" do
+      it "should throw an error if dir exists" do
+        name = "random-name-#{(rand * 100000).to_i}"
+        FileUtils.mkdir(name)
+        @cli.instance_variable_set("@appname", name)
+        @cli.should_receive(:error).with("A directory named \"#{name}\" already exists. Please delete or move directory and try again.")
+        @cli.send :check_if_dir_already_exists
+        FileUtils.rm_rf(name)
+      end
+
+      it "should not throw an error if dir does not exist" do
+        name = "random-name-#{(rand * 100000).to_i}"
+        @cli.instance_variable_set("@appname", name)
+        @cli.should_not_receive(:error)
+        @cli.send :check_if_dir_already_exists
+      end
     end
 
   end
