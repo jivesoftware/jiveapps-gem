@@ -1,7 +1,7 @@
 module Jiveapps::Command
   class Keys < Base
 
-    KEY_REGEX = /^((?:[A-Za-z0-9-]+(?:="[^"]+")?,?)+ *)?(ssh-(?:dss|rsa)) *([^ ]*) *(.*)/
+    SSH_KEY_REGEX = /^((?:[A-Za-z0-9-]+(?:="[^"]+")?,?)+ *)?(ssh-(?:dss|rsa)) *([^ ]*) *(.*)/
 
     # Lists uploaded SSH keys
     def list
@@ -76,7 +76,7 @@ module Jiveapps::Command
       end
 
       def validate_key(key, keyfile)
-        if KEY_REGEX.match(key.strip).nil?
+        if SSH_KEY_REGEX.match(key.strip).nil?
           fake_key = "ssh-rsa NAyG4kbVIZyokH/hMDkLbrFBktxPgsQKBgQDshif7w5RgOTK0eaNC6AJbjX0NTOgoTtbjQIX0s9fAUiakcxU3Qqna9ONXlL1mgf+WZ3KgOyUyNcgz2JPWinZseoTDNukRixqcLS9HO8qOWoLUHJZID1q1xf/btESt4UylEMiykEn712YGqCpVdFxX+q7z7b6Z5G/9n49hKWN22wKBgQCBDM1DUeqOX5Li2Hnj/EF/PfhGypAlhz/Klh40foNq7TziwFtkTZz06HpRNIhK2VcoLhU49f2v6CrcaEmll9Zs5Hw2VMrSeTNReO5gRfxlrId1imhfBkYUaZImEKSWAe3HgdyihCmXqf5SCQOtVmm5lxbgaSBjz== your.name@machine.name"
 
           raise CommandFailed, "Invalid SSH public key format found at \"#{keyfile}\":\n\n#{key}\n\nExample of correct format:\n\n#{fake_key}\n\nCheck and fix, or regenerate key with this command:\n$ ssh-keygen -t rsa"
