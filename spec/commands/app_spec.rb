@@ -28,10 +28,10 @@ module Jiveapps::Command
     describe "app info" do
       it "shows info when name specified and rest client returns an app" do
         @cli.stub!(:args).and_return(['myapp'])
-        @cli.jiveapps.should_receive(:info).with('myapp').and_return({ 
-          'name' => 'myapp', 
+        @cli.jiveapps.should_receive(:info).with('myapp').and_return({
+          'name' => 'myapp',
           'app_url' => 'http://app_url',
-          'git_url' => 'http://git_url' 
+          'git_url' => 'http://git_url'
         })
         @cli.should_receive(:display).with('=== myapp')
         @cli.should_receive(:display).with("App URL:               http://app_url")
