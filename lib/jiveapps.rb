@@ -5,3 +5,4 @@ end
 
 require 'jiveapps/version'
 require 'jiveapps/client'
+require 'fileutils'

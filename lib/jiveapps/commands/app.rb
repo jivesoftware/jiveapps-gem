@@ -24,7 +24,7 @@ module Jiveapps::Command
     end
 
     def info
-      name = (args.first && !args.first =~ /^\-\-/) ? args.first : extract_app
+      name = determine_app_name
       app = jiveapps.info(name)
       if app == nil
         display "App not found."
@@ -72,7 +72,7 @@ module Jiveapps::Command
     end
 
     def install
-      name = (args.first && !args.first =~ /^\-\-/) ? args.first : extract_app
+      name = determine_app_name
       display "=== Installing \"#{name}\" on the Jive App Sandbox: ", false
       app = jiveapps.install(name)
       handle_response_errors
@@ -85,17 +85,29 @@ module Jiveapps::Command
     end
 
     def delete
-      name = (args.first && !args.first =~ /^\-\-/) ? args.first : extract_app
+      name = determine_app_name
       app = jiveapps.info(name)
       if app == nil
         display "App not found."
       else
-        display "Are you sure you want to delete the app \"#{name}\" [y/N]? ", false
-        answer = gets.strip
-        if answer == 'y'
+        if confirm("Are you sure you want to delete the app \"#{name}\" [y/N]? ")
           display "=== Deleting \"#{name}\": ", false
           @current_app = jiveapps.delete_app(name)
           handle_response_errors
+
+          dir_delete_text = "Would you like to delete the local directory \"#{name}\" [y/N]? "
+
+          # if we're in the app directory now
+          if File.split(Dir.pwd).last == name && File.directory?(".git") && confirm(dir_delete_text)
+            Dir.chdir("..")
+            FileUtils.rm_rf(name)
+            display "Local directory \"#{name}\" deleted."
+          # otherwise if that directory exists below the current one
+          elsif File.directory?(name) && confirm(dir_delete_text)
+            FileUtils.rm_rf(name)
+            display "Local directory \"#{name}\" deleted."
+          end
+
         end
       end
     end
@@ -230,6 +242,10 @@ module Jiveapps::Command
       if File.directory?(@appname)
         error("A directory named \"#{@appname}\" already exists. Please delete or move directory and try again.")
       end
+    end
+
+    def determine_app_name
+      args.first && args.first !~ /^\-\-/ ? args.first : extract_app
     end
 
   end

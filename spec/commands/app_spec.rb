@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'fileutils'
 
 module Jiveapps::Command
   describe App do
