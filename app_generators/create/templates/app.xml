@@ -8,11 +8,40 @@
 
     <!-- Commonly used features -->
     <Require feature="dynamic-height" />
-    <Require feature="jive-core-v2" />
-    <Require feature="jquery-1.6" />
-    <Require feature="osapi"/>
-    <Require feature="settitle"/>
+    <Require feature="dynamic-width" />
+    <Require feature="embedded-experiences" />
+    <Require feature="jive-core-v3" />
+    <Require feature="open-views" />
+    <Require feature="opensocial" />
+    <Require feature="opensocial-data" />
+    <Require feature="opensocial-templates" />
+    <Require feature="osapi" />
+    <Require feature="selection" />
+    <Require feature="setprefs" />
+    <Require feature="settitle" />
     <Require feature="views" />
+    <Optional feature="minimessage" />
+    <Optional feature="oauthpopup" />
+
+    <!-- Jive Actions -->
+    <!--
+    <Require feature="actions">
+      <Param name="action-contributions">
+        <![CDATA[
+          <action id="com.yourcompany.rteaction"
+                  path="jive/actions/rte"
+                  label="Your App RTE Action Label"
+                  view="embedded.rte" />
+        ]]>
+        <![CDATA[
+          <action id="com.yourcompany.action"
+                  path="jive/actions/content/*"
+                  label="Your App Action Link Label"
+                  view="embedded.action" />
+        ]]>
+      </Param>
+    </Require>
+    -->
 
     <!-- Icons: 3 sizes, 16x16, 48x48, 128x128 -->
     <Link rel="Icon"       href="images/icon16.png" />
@@ -28,7 +57,7 @@
     <Link rel="Screenshot5" href="images/screenshot5.png" />
     -->
 
-    <!-- OAuth Services: https://developers.jivesoftware.com/community/docs/DOC-1161 -->
+    <!-- OAuth Services: https://community.jivesoftware.com/docs/DOC-66542 -->
     <!--
     <OAuth>
       <Service name="example">
@@ -39,7 +68,7 @@
     </OAuth>
     -->
 
-    <!-- Lifecycle Events: https://developers.jivesoftware.com/community/docs/DOC-1119 -->
+    <!-- Lifecycle Events: https://community.jivesoftware.com/docs/DOC-65579 -->
     <!--
     <Link rel="event.addapp" href="http://www.example.com/add" />
     <Link rel="event.removeapp" href="http://www.example.com/remove" />
@@ -67,11 +96,12 @@
   -->
 
   <!-- To begin development, remove the hello view and uncomment the home and canvas views below -->
-  <Content type="html" view="home,canvas" href="hello.html" preferred_height="400" />
+  <Content type="html" view="canvas" href="hello.html" />
 
   <!--
-  <Content type="html" view="home" href="home.html" preferred_height="400" />
   <Content type="html" view="canvas" href="canvas.html" />
+  <Content type="html" view="embedded.rte" href="embedded_rte.html" preferred_height="400" />
+  <Content type="html" view="embedded.action" href="embedded_action.html" preferred_height="400" />
   -->
 
 </Module>

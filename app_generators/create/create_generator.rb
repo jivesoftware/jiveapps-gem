@@ -33,7 +33,8 @@ class CreateGenerator < RubiGen::Base
       # Create stubs
       m.template "app.xml",                  "app.xml"
       m.template "canvas.html",              "canvas.html"
-      m.template "home.html",                "home.html"
+      m.template "embedded_action.html",     "embedded_action.html"
+      m.template "embedded_rte.html",        "embedded_rte.html"
       m.template "hello.html",               "hello.html"
       m.template "stylesheets/main.css",     "stylesheets/main.css"
       m.template "javascripts/main.js",      "javascripts/main.js"
