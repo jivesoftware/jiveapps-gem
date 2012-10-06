@@ -118,10 +118,14 @@ module Jiveapps
       end
     end
 
+    def git_version
+      `git --version`
+    end
+
     def user_git_version
       return @git_version if @git_version
       error("Git not found. Please install Git 1.7 or higher. http://git-scm.com/download") unless has_program?("git")
-      version_string = `git --version`.split(/\s+/).last
+      version_string = git_version[/\d{1,2}\.\d{1,2}/]
       @git_version = Gem::Version.new(version_string)
     end
 
