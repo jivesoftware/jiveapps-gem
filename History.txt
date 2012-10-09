@@ -1,3 +1,7 @@
+=== 1.0.7 2012-10-08
+* Bug Fixes:
+  * Handle checking git version when git returns a custom Apple version string
+
 === 1.0.6 2012-02-08
 * Enhancements
   * ADT-26: Prompt to delete files and delete if so
